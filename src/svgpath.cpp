@@ -2,8 +2,27 @@
 #include "svgutils.h"
 #include "graphicscontext.h"
 
-SvgPath::SvgPath(const std::string &str): ok(true)
+SvgPath::SvgPath(const std::string &str)
 {
+	setPath(str);
+}
+
+void SvgPath::setPath(const std::string &str)
+{
+	data.commands.clear();
+	data.coords.clear();
+
+	ok = true;
+	lastError = "";
+
+	if (str.empty())
+	{
+		ok = false;
+		return;
+	}
+
+	pathString = str;
+
     auto it = str.begin();
 
     try
@@ -15,6 +34,11 @@ SvgPath::SvgPath(const std::string &str): ok(true)
 		lastError = e.what();
 		ok = false;
 	}
+}
+
+const std::string &SvgPath::getPath() const
+{
+	return pathString;
 }
 
 const SvgPath::PathData &SvgPath::getPathData() const
@@ -34,6 +58,8 @@ std::string SvgPath::getLastError() const
 
 void SvgPath::render(GraphicsContext *g)
 {
+	if (!ok) return;
+
 	std::vector<PathElement>::const_iterator commandIt = data.commands.begin();
 	std::vector<double>::const_iterator coordsIt = data.coords.begin();
 

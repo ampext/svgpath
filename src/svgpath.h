@@ -37,7 +37,11 @@ public:
     
 public:
     
+    SvgPath() {};
     SvgPath(const std::string &str);
+
+    void setPath(const std::string &str);
+    const std::string &getPath() const;
     
     const PathData &getPathData() const;
     void render(GraphicsContext *g);
@@ -46,8 +50,9 @@ public:
     std::string getLastError() const;
     
 private:
+    std::string pathString;
     PathData data;
 
-    bool ok;
+    bool ok = false;
     std::string lastError;
 };
