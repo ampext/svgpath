@@ -16,6 +16,9 @@ public:
 	void closePath() override;
 	void getCurrentPoint(double &x, double &y) override;
 
+	void stroke() override;
+	void fill() override;
+
 private:
 	cairo_t *g;
 };

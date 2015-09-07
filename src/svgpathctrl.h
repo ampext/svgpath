@@ -1,9 +1,8 @@
 #pragma once
 
-#include <wx/window.h>
-#include "svgpath.h"
+#include "svgpathctrlbase.h"
 
-class SvgPathCtrl: public wxWindow
+class SvgPathCtrl: public SvgPathCtrlBase
 {
 DECLARE_DYNAMIC_CLASS(SvgPathCtrl)
 
@@ -29,12 +28,10 @@ public:
 				const wxSize &size = wxDefaultSize,
 				const wxString &name = "SvgPathCtrl");
 
-	wxSize GetMinSize() const override;
-	void OnPaint(wxPaintEvent& event);
+	void OnPaint(wxPaintEvent& event) override;
 
 public:
 	void SetPathData(const wxString &pathData);
-	bool IsOk() const;
 
 	void SetMirror(bool mirror = true);
 	bool IsMirror() const;
@@ -51,16 +48,7 @@ public:
 	void SetStrokeWidth(double width);
 	double GetStrokeWidth() const;
 
-	void SetColor(const wxColor &color);
-	wxColor GetColor() const;
-
-protected:
-    wxSize DoGetBestSize() const override;
-
 private:
-	SvgPath svgPath;
-
-	wxColor color = *wxBLACK;
 	int padding = 0;
 	bool stroke = false;
 	int strokeWidth = 1;

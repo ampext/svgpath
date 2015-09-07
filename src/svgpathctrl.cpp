@@ -1,10 +1,10 @@
 #include "svgpathctrl.h"
-#include "cairocontext.h"
 
 #include <wx/dcclient.h>
 #include <wx/graphics.h>
 
 #ifdef wxUSE_CAIRO
+	#include "cairocontext.h"
 	#include <cairo/cairo.h>
 #endif
 
@@ -12,29 +12,16 @@
 
 bool SvgPathCtrl::Create(wxWindow *parent, wxWindowID id, const wxString &path, const wxPoint &pos, const wxSize &size, const wxString &name)
 {
-    if (!wxWindow::Create(parent, id, pos, size, 0, name))
+    if (!SvgPathCtrlBase::Create(parent, id, path, pos, size, name))
 		return false;
 
-	Bind(wxEVT_PAINT, &SvgPathCtrl::OnPaint, this);
-	Bind(wxEVT_ERASE_BACKGROUND, [] (wxEraseEvent& event) {});
-
 	return true;
-}
-
-wxSize SvgPathCtrl::DoGetBestSize() const
-{
-	return wxSize(200, 200);
 }
 
 void SvgPathCtrl::SetPathData(const wxString &pathData)
 {
 	svgPath.setPath(pathData.ToStdString());
 	Refresh();
-}
-
-bool SvgPathCtrl::IsOk() const
-{
-	return svgPath.isOk();
 }
 
 void SvgPathCtrl::SetMirror(bool mirror)
@@ -90,17 +77,6 @@ void SvgPathCtrl::SetStrokeWidth(double width)
 double SvgPathCtrl::GetStrokeWidth() const
 {
 	return strokeWidth;
-}
-
-void SvgPathCtrl::SetColor(const wxColor &color)
-{
-	this->color = color;
-	Refresh();
-}
-
-wxColor SvgPathCtrl::GetColor() const
-{
-	return color;
 }
 
 void SvgPathCtrl::OnPaint(wxPaintEvent& event)
@@ -167,9 +143,4 @@ void SvgPathCtrl::OnPaint(wxPaintEvent& event)
 
 }
 
-wxSize SvgPathCtrl::GetMinSize() const
-{
-	return wxSize(10, 10);
-}
-
-IMPLEMENT_DYNAMIC_CLASS(SvgPathCtrl, wxWindow)
+IMPLEMENT_DYNAMIC_CLASS(SvgPathCtrl, SvgPathCtrlBase)

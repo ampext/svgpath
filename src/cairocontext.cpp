@@ -30,3 +30,13 @@ void CairoContext::getCurrentPoint(double &x, double &y)
 {
 	cairo_get_current_point(g, &x, &y);
 }
+
+void CairoContext::stroke()
+{
+	cairo_stroke(g);
+}
+
+void CairoContext::fill()
+{
+	cairo_fill(g);
+}
