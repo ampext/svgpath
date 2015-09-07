@@ -1,12 +1,8 @@
 #include "svgpathctrl.h"
+#include "wxcontext.h"
 
 #include <wx/dcclient.h>
 #include <wx/graphics.h>
-
-#ifdef wxUSE_CAIRO
-	#include "cairocontext.h"
-	#include <cairo/cairo.h>
-#endif
 
 #include <memory>
 
@@ -89,22 +85,12 @@ void SvgPathCtrl::OnPaint(wxPaintEvent& event)
 
 	if (!svgPath.isOk()) return;
 
-#ifdef wxUSE_CAIRO
-
-    cairo_t *cr = reinterpret_cast<cairo_t *>(gc->GetNativeContext());
-
-    CairoContext pathContext(cr);
-
+	wxContext pathContext(gc.get());
 	svgPath.render(&pathContext);
 
-	double left, top, right, bottom;
-    cairo_path_extents(cr, &left, &top, &right, &bottom);
+	double x, y, width, height;
+    pathContext.getBoundingRect(x, y, width, height);
 
-    cairo_set_source_rgba(cr, 0, 0, 0, 0);
-    cairo_stroke(cr);
-
-    double width = right - left;
-    double height = bottom - top;
     double scale = 1.0;
 
     if (fit)
@@ -118,28 +104,23 @@ void SvgPathCtrl::OnPaint(wxPaintEvent& event)
 
     if (mirror)
     {
-		cairo_translate(cr, padding, padding + rect.GetHeight());
-		cairo_scale(cr, 1.0, -1.0);
+		gc->Translate(padding, padding + rect.GetHeight());
+		gc->Scale(1.0, -1.0);
     }
 
-    cairo_scale(cr, scale, scale);
-    cairo_translate(cr, -left, -top);
-
-    svgPath.render(&pathContext);
-
- 	cairo_set_source_rgba(cr,
- 		static_cast<double>(color.Red()) / 255,
- 		static_cast<double>(color.Green()) / 255,
- 		static_cast<double>(color.Blue()) / 255, 1);
+    gc->Scale(scale, scale);
+    gc->Translate(-x, -y);
 
     if (stroke)
     {
-    	cairo_set_line_width(cr, strokeWidth);
-    	cairo_stroke(cr);
+		gc->SetPen(wxPen(color, 1));
+		pathContext.stroke();
     }
-    else cairo_fill(cr);
-
-#endif
+    else
+    {
+    	gc->SetBrush(wxBrush(color));
+    	pathContext.fill();
+    }
 
 }
 

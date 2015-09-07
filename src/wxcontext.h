@@ -1,14 +1,14 @@
 #pragma once
 
 #include "graphicscontext.h"
+#include <wx/graphics.h>
 
-struct _cairo;
-typedef struct _cairo cairo_t;
+class wxGraphicsContext;
 
-class CairoContext: public GraphicsContext
+class wxContext: public GraphicsContext
 {
 public:
-	CairoContext(cairo_t *g);
+	wxContext(wxGraphicsContext *g);
 
 	void moveTo(double x, double y) override;
 	void lineTo(double x, double y) override;
@@ -21,5 +21,6 @@ public:
 	void fill() override;
 
 private:
-	cairo_t *g;
+	wxGraphicsContext *g;
+	wxGraphicsPath path;
 };

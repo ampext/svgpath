@@ -31,6 +31,17 @@ void CairoContext::getCurrentPoint(double &x, double &y)
 	cairo_get_current_point(g, &x, &y);
 }
 
+void CairoContext::getBoundingRect(double &x, double &y, double &w, double &h) 
+{
+	double left, top, right, bottom;
+    cairo_path_extents(g, &left, &top, &right, &bottom);
+
+    x = left;
+    y = top;
+    w = right - left;
+    h = bottom - top;
+}
+
 void CairoContext::stroke()
 {
 	cairo_stroke(g);
