@@ -3,6 +3,7 @@
 
 #include <wx/checkbox.h>
 #include <wx/radiobut.h>
+#include <wx/textctrl.h>
 #include <wx/sizer.h>
 #include <wx/panel.h>
 
