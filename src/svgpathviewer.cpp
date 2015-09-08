@@ -3,7 +3,7 @@
 #include <wx/app.h>
 
 
-class SvgPathViewer : public wxApp
+class SvgPathViewer: public wxApp
 {
 public:
 	virtual bool OnInit()

@@ -75,9 +75,17 @@ double SvgPathCtrl::GetStrokeWidth() const
 	return strokeWidth;
 }
 
+void SvgPathCtrl::OnResize(wxSizeEvent &event)
+{
+	Refresh();
+}
+
 void SvgPathCtrl::OnPaint(wxPaintEvent& event)
 {
 	wxPaintDC dc(this);
+
+	DrawBackground(dc);
+
     std::unique_ptr<wxGraphicsContext> gc(wxGraphicsContext::Create(dc));
 
 	wxRect rect = GetClientRect();

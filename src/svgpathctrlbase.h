@@ -3,6 +3,8 @@
 #include <wx/window.h>
 #include "svgpath.h"
 
+class wxDC;
+
 class SvgPathCtrlBase: public wxWindow
 {
 public:
@@ -16,6 +18,7 @@ public:
 				const wxString &name);
 
 	virtual void OnPaint(wxPaintEvent& event) = 0;
+	virtual void OnResize(wxSizeEvent &event) {}
 
 public:
 	virtual bool IsOk() const;
@@ -26,6 +29,7 @@ public:
 
 protected:
     wxSize DoGetBestSize() const override;
+    virtual void DrawBackground(wxDC &dc) const;
 
 protected:
 	SvgPath svgPath;

@@ -24,10 +24,10 @@ SvgPathDialog::SvgPathDialog(wxWindow *parent): wxDialog(parent, wxID_ANY, wxEmp
 
 			wxBoxSizer *vSizer = new wxBoxSizer(wxVERTICAL);
 			{
-				vSizer->Add(fitCheck = new wxCheckBox(this, wxID_ANY, "Fit to view"), 0, wxALL | wxEXPAND);
-				vSizer->Add(mirrorCheck = new wxCheckBox(this, wxID_ANY, "Mirror"), 0, wxALL | wxEXPAND);
-				vSizer->Add(fillRadio = new wxRadioButton(this, wxID_ANY, "Fill"), 0, wxALL | wxEXPAND);
-				vSizer->Add(strokeRadio = new wxRadioButton(this, wxID_ANY, "Stroke"), 0, wxALL | wxEXPAND);
+				vSizer->Add(fitCheck = new wxCheckBox(this, wxID_ANY, "Fit to view"), 0, wxALL | wxEXPAND, 5);
+				vSizer->Add(mirrorCheck = new wxCheckBox(this, wxID_ANY, "Mirror"), 0, wxALL | wxEXPAND, 5);
+				vSizer->Add(fillRadio = new wxRadioButton(this, wxID_ANY, "Fill"), 0, wxALL | wxEXPAND, 5);
+				vSizer->Add(strokeRadio = new wxRadioButton(this, wxID_ANY, "Stroke"), 0, wxALL | wxEXPAND, 5);
 
 				hSizer->Add(vSizer, 0, wxALL | wxEXPAND);
 			}
@@ -57,13 +57,14 @@ SvgPathDialog::SvgPathDialog(wxWindow *parent): wxDialog(parent, wxID_ANY, wxEmp
 		svgPathCtrl->SetStroke(event.GetId() == strokeRadio->GetId());
 	});
 
-	wxCommandEvent dummyEvent(wxEVT_CHECKBOX);
-	dummyEvent.SetInt(1);
 	fitCheck->SetValue(true);
-	fitCheck->GetEventHandler()->ProcessEvent(dummyEvent);
+	svgPathCtrl->SetFit(fitCheck->IsChecked());
 
 	mirrorCheck->SetValue(true);
-	mirrorCheck->GetEventHandler()->ProcessEvent(dummyEvent);
+	svgPathCtrl->SetMirror(mirrorCheck->IsChecked());
+
+	fillRadio->SetValue(true);
+	svgPathCtrl->SetStroke(strokeRadio->GetValue());
 
 	SetSizer(sizer);
 	SetSize(400, 400);

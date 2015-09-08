@@ -29,6 +29,7 @@ public:
 				const wxString &name = "SvgPathCtrl");
 
 	void OnPaint(wxPaintEvent& event) override;
+	void OnResize(wxSizeEvent &event) override;
 
 public:
 	void SetPathData(const wxString &pathData);
