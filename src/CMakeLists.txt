@@ -9,3 +9,6 @@ target_link_libraries(svgpath ${CAIRO_LIB})
 
 add_executable(svgpathviewer WIN32 svgpathdialog.cpp svgpathviewer.cpp)
 target_link_libraries(svgpathviewer svgpath ${wxWidgets_LIBRARIES})
+
+add_executable(svgglyphviewer WIN32 svgglyphdialog.cpp svgglyphviewer.cpp)
+target_link_libraries(svgglyphviewer svgpath ${wxWidgets_LIBRARIES})
