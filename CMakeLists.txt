@@ -1,5 +1,8 @@
 cmake_minimum_required(VERSION 3.0)
 
+option(TESTS "build tests" ON)
+option(VIEWERS "build viewers" ON)
+
 include_directories(${CAIRO_INCLUDE})
 
 if(NOT CAIRO_LIB)
@@ -14,6 +17,6 @@ endif()
 
 add_subdirectory(src)
 
-if(${ENABLE_TESTS})
+if(${TESTS})
 	add_subdirectory(tests)
 endif()
