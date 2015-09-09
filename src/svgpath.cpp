@@ -56,7 +56,7 @@ std::string SvgPath::getLastError() const
 	return lastError;
 }
 
-void SvgPath::render(GraphicsContext *g)
+void SvgPath::render(GraphicsContext *g) const
 {
 	if (!ok) return;
 

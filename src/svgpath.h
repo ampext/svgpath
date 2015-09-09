@@ -44,7 +44,7 @@ public:
     const std::string &getPath() const;
     
     const PathData &getPathData() const;
-    void render(GraphicsContext *g);
+    void render(GraphicsContext *g) const;
 
     bool isOk() const;
     std::string getLastError() const;
