@@ -32,6 +32,7 @@ public:
 				const wxString &name = "SvgGlyphCtrl");
 
 	void OnPaint(wxPaintEvent& event) override;
+	void OnResize(wxSizeEvent &event) override;
 	wxSize GetMinClientSize() const override;
 
 	static void RenderGlyph(wxGraphicsContext *gc, const wxRect &rect, const SvgPath &svgPath, const SvgGlyph &glyph, int size);

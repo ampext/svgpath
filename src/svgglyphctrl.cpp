@@ -67,4 +67,10 @@ void SvgGlyphCtrl::RenderGlyph(wxGraphicsContext *gc, const wxRect &rect, const 
 	pathContext.fill();
 }
 
+void SvgGlyphCtrl::OnResize(wxSizeEvent &event)
+{
+	Refresh();
+}
+
+
 IMPLEMENT_DYNAMIC_CLASS(SvgGlyphCtrl, SvgPathCtrlBase)
