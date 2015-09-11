@@ -1,6 +1,6 @@
 #pragma once
 
-class GraphicsContext
+class SVGPATHAPI GraphicsContext
 {
 public:
 	virtual void moveTo(double x, double y) = 0;

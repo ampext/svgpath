@@ -1,26 +1,23 @@
 #pragma once
 
-#include "../src/svgutils.h"
+#include <svgutils.h>
 #include "catch.hpp"
-
-#include <iterator>
-#include <functional>
 
 typedef std::vector<SvgPath::PathElement> PathElements;
 
-double readNumber(const std::string& str)
+inline double readNumber(const std::string& str)
 {
 	auto it = str.begin();
 	return SvgUtils::readNumber(it, str.end());
 }
 
-std::pair<double, double> readCoordinate(const std::string& str)
+inline std::pair<double, double> readCoordinate(const std::string& str)
 {
 	auto it = str.begin();
 	return SvgUtils::readCoordinatePair(it, str.end());
 }
 
-void readSvgCommand(const std::string &str, std::vector<SvgPath::PathElement> &commands, std::vector<double> &coords)
+inline void readSvgCommand(const std::string &str, std::vector<SvgPath::PathElement> &commands, std::vector<double> &coords)
 {
 	commands.clear();
 	coords.clear();
@@ -40,7 +37,7 @@ void readSvgCommand(const std::string &str, std::vector<SvgPath::PathElement> &c
 	}
 }
 
-void readSvgPath(const std::string &str, std::vector<SvgPath::PathElement> &commands, std::vector<double> &coords)
+inline void readSvgPath(const std::string &str, std::vector<SvgPath::PathElement> &commands, std::vector<double> &coords)
 {
 	commands.clear();
 	coords.clear();

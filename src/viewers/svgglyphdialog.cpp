@@ -1,5 +1,5 @@
 #include "svgglyphdialog.h"
-#include "svgglyphctrl.h"
+#include <svgglyphctrl.h>
 
 #include <wx/sizer.h>
 #include <wx/panel.h>

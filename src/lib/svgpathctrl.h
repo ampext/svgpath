@@ -2,7 +2,7 @@
 
 #include "svgpathctrlbase.h"
 
-class SvgPathCtrl: public SvgPathCtrlBase
+class SVGPATHAPI SvgPathCtrl: public SvgPathCtrlBase
 {
 DECLARE_DYNAMIC_CLASS(SvgPathCtrl)
 

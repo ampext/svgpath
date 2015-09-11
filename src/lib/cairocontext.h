@@ -1,11 +1,12 @@
 #pragma once
 
+#include "defs.h"
 #include "graphicscontext.h"
 
 struct _cairo;
 typedef struct _cairo cairo_t;
 
-class CairoContext: public GraphicsContext
+class SVGPATHAPI CairoContext: public GraphicsContext
 {
 public:
 	CairoContext(cairo_t *g);

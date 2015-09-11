@@ -1,7 +1,6 @@
-#include "../src/svgpath.h"
-#include "../src/cairocontext.h"
+#include <svgpath.h>
+#include <cairocontext.h>
 
-#include <iostream>
 #include <vector>
 #include <cairo/cairo.h>
 

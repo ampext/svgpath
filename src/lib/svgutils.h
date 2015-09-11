@@ -9,9 +9,23 @@
 
 namespace SvgUtils
 {
-	bool isCommaOrWhitespace(char ch)
+	inline bool isCommaOrWhitespace(char ch)
 	{
 		return ch == ',' || std::isspace(ch);
+	}
+
+	inline double toDouble(const std::string &str)
+	{
+		std::istringstream stream(str);
+		stream.imbue(std::locale::classic());
+
+		double value;
+		stream >> value;
+
+		if (stream.fail() || !stream.eof())
+			throw std::runtime_error("failure to convert from string to double");
+
+		return value;
 	}
 
 	template <class Iterator>
@@ -29,20 +43,6 @@ namespace SvgUtils
 	{
 		while (it != last && std::isspace(*it))
 			it++;		
-	}
-	
-	double toDouble(const std::string &str)
-	{
-		std::istringstream stream(str);
-		stream.imbue(std::locale::classic());
-
-		double value;
-		stream >> value;
-
-		if (stream.fail() || !stream.eof())
-			throw std::runtime_error("failure to convert from string to double");
-
-		return value;
 	}
 
 	template <class Iterator>
@@ -270,7 +270,7 @@ namespace SvgUtils
         }
     }
 
-    bool isCommandRelative(SvgPath::PathElement element)
+    inline bool isCommandRelative(SvgPath::PathElement element)
     {
     	return	element == SvgPath::PathElement::MoveToRel ||
 	        element == SvgPath::PathElement::LineToRel ||
@@ -282,7 +282,7 @@ namespace SvgUtils
 	        element == SvgPath::PathElement::CurveToQuadraticSmoothRel;
     }
 
-    bool isCurveToCubic(SvgPath::PathElement element)
+    inline bool isCurveToCubic(SvgPath::PathElement element)
     {
 		return element == SvgPath::PathElement::CurveToCubic ||
 			element == SvgPath::PathElement::CurveToCubicRel ||
@@ -290,7 +290,7 @@ namespace SvgUtils
 			element == SvgPath::PathElement::CurveToCubicSmoothRel;
     }
 
-    bool isCurveToQuadratic(SvgPath::PathElement element)
+    inline bool isCurveToQuadratic(SvgPath::PathElement element)
     {
 		return element == SvgPath::PathElement::CurveToQuadratic ||
 			element == SvgPath::PathElement::CurveToQuadraticRel ||

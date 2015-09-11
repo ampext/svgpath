@@ -1,11 +1,11 @@
 #pragma once
 
+#include "defs.h"
 #include "graphicscontext.h"
+
 #include <wx/graphics.h>
 
-class wxGraphicsContext;
-
-class wxContext: public GraphicsContext
+class SVGPATHAPI wxContext: public GraphicsContext
 {
 public:
 	wxContext(wxGraphicsContext *g);

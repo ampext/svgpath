@@ -1,5 +1,5 @@
 #include "svgpathdialog.h"
-#include "svgpathctrl.h"
+#include <svgpathctrl.h>
 
 #include <wx/checkbox.h>
 #include <wx/radiobut.h>

@@ -5,7 +5,7 @@
 
 class wxGraphicsContext;
 
-class SvgGlyphCtrl: public SvgPathCtrlBase
+class SVGPATHAPI SvgGlyphCtrl: public SvgPathCtrlBase
 {
 DECLARE_DYNAMIC_CLASS(SvgGlyphCtrl)
 

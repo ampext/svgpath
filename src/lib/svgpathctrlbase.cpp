@@ -21,7 +21,7 @@ wxSize SvgPathCtrlBase::DoGetBestSize() const
 	return wxSize(200, 200);
 }
 
-wxSize SvgPathCtrlBase::GetMinSize() const
+wxSize SvgPathCtrlBase::GetMinClientSize() const
 {
 	return wxSize(8, 8);
 }

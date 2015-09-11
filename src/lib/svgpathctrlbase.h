@@ -1,14 +1,15 @@
 #pragma once
 
-#include <wx/window.h>
 #include "svgpath.h"
+#include <wx/window.h>
 
 class wxDC;
 
-class SvgPathCtrlBase: public wxWindow
+class SVGPATHAPI SvgPathCtrlBase: public wxWindow
 {
 public:
 	SvgPathCtrlBase() {}
+	~SvgPathCtrlBase() override {}
 
 	bool Create(wxWindow *parent,
 				wxWindowID id,
@@ -25,7 +26,7 @@ public:
 
 	virtual void SetColor(const wxColor &color);
 	virtual wxColor GetColor() const;
-	wxSize GetMinSize() const override;
+	wxSize GetMinClientSize() const override;
 
 protected:
     wxSize DoGetBestSize() const override;

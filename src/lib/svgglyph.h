@@ -1,6 +1,9 @@
 #pragma once
 
-struct SvgGlyph
+#include "defs.h"
+#include <string>
+
+struct SVGPATHAPI SvgGlyph
 {
 	std::string data;
 	int horizAdvX;

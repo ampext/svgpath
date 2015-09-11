@@ -1,11 +1,13 @@
 #pragma once
 
+#include "defs.h"
+
 #include <string>
 #include <vector>
 
 class GraphicsContext;
 
-class SvgPath
+class SVGPATHAPI SvgPath
 {
 public:
     enum class PathElement
@@ -37,7 +39,7 @@ public:
     
 public:
     
-    SvgPath() {};
+    SvgPath() {}
     SvgPath(const std::string &str);
 
     void setPath(const std::string &str);
