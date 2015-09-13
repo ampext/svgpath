@@ -44,8 +44,6 @@ SvgGlyphDialog::SvgGlyphDialog(wxWindow *parent): wxDialog(parent, wxID_ANY, wxE
 	    this->OnLoadFont(fileDialog.GetPath());
 	});
 
-	OnLoadFont(L"/home/artem/Desktop/fontawesome-webfont.svg");
-
 	SetSizer(sizer);
 	SetSize(400, 400);
     SetLabel(L"SVG Glyph Viewer");

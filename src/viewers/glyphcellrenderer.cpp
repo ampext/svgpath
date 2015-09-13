@@ -4,7 +4,6 @@
 #include <wx/graphics.h>
 
 #include <memory>
-#include <iostream>
 
 GlyphCellRenderer::GlyphCellRenderer(const std::map<wxString, SvgGlyph> &glyphs, int fontSize): glyphs(glyphs), fontSize(fontSize)
 {

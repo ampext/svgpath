@@ -5,7 +5,6 @@
 #include <wx/graphics.h>
 
 #include <memory>
-#include <iostream>
 
 bool SvgGlyphCtrl::Create(wxWindow *parent, wxWindowID id, const SvgGlyph &glyph, const wxPoint &pos, const wxSize &size, const wxString &name)
 {
