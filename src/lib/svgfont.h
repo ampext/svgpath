@@ -11,6 +11,8 @@ public:
 	bool LoadFromFile(const wxString &filename);
 	wxString GetLastError() const;
 
+	void Clear();
+
 	wxString GetId() const;
 	int GetHorizAdvX() const;
 	int GetUnitsPerEm() const;

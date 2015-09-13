@@ -40,5 +40,11 @@ TEST_CASE("font loader")
 		CHECK(glyphSpace.unicode == " ");
 		CHECK(glyphSpace.data.empty());
 		CHECK(glyphSpace.unitsPerEm == 14);
+
+		CHECK_FALSE(svgFont.LoadFromFile(executablePath + "/font1.svg"));
+		CHECK(svgFont.GetLastError() != wxEmptyString);
+
+		svgFont.Clear();
+		CHECK(svgFont.GetLastError() == wxEmptyString);
 	}
 }

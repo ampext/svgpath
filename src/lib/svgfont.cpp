@@ -5,6 +5,8 @@
 
 bool SvgFont::LoadFromFile(const wxString &filename)
 {
+	Clear();
+
 	wxXmlDocument doc;
 
 	if (!doc.Load(filename) || !doc.IsOk())
@@ -120,6 +122,17 @@ bool SvgFont::LoadFromFile(const wxString &filename)
 wxString SvgFont::GetLastError() const
 {
 	return lastError;
+}
+
+void SvgFont::Clear() 
+{
+	id = wxEmptyString;
+	lastError = wxEmptyString;
+	glyphs.clear();
+	horizAdvX = -1;
+	unitsPerEm = -1;
+	ascent = -1;
+	descent = -1;
 }
 
 wxString SvgFont::GetId() const
