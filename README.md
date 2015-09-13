@@ -5,6 +5,7 @@ The library provides wxWidgets controls and methods for rendering svg path data 
 The library also provided wxWidgets control and path viewer application based on this widget.
 
 ![svgpathviewer](https://github.com/ampext/ampext.github.io/blob/master/images/svgpathviewer.png)
+![svgglyphviwer](https://github.com/ampext/ampext.github.io/blob/master/images/svgglyphviewer.png)
 
 ##Dependencies
 * wxWidgets (viewers and controls)
