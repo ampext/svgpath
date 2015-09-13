@@ -45,26 +45,28 @@ void SvgGlyphCtrl::OnPaint(wxPaintEvent& event)
     std::unique_ptr<wxGraphicsContext> gc(wxGraphicsContext::Create(dc));
 	gc->SetBrush(wxBrush(color));
 
-	RenderGlyph(gc.get(), GetClientRect(), svgPath, svgGlyph, fontSize);
+    RenderGlyph(gc.get(), GetClientRect(), svgPath, svgGlyph, fontSize);
 }
 
 void SvgGlyphCtrl::RenderGlyph(wxGraphicsContext *gc, const wxRect &rect, const SvgPath &svgPath, const SvgGlyph &glyph, int size)
 {
-	int width = std::round(static_cast<double>(glyph.horizAdvX) / glyph.unitsPerEm * size);
+    int width = glyph.horizAdvX <= 0 ? size : std::round(static_cast<double>(glyph.horizAdvX) / glyph.unitsPerEm * size);
 	int height = size;
-	double scale = static_cast<double>(width) / glyph.horizAdvX;
+    double scale = static_cast<double>(width) / (glyph.horizAdvX > 0 ? glyph.horizAdvX : glyph.unitsPerEm);
 
 	wxContext pathContext(gc);
 
-	double xCenterOffset = (rect.GetWidth() - width) / 2;
-	double yCenterOffset = (rect.GetHeight() - height) / 2;
+    double xCenterOffset = std::round(rect.x + (rect.GetWidth() - width) / 2);
+    double yCenterOffset = std::round(rect.y + (rect.GetHeight() - height) / 2);
 
-	gc->Translate(xCenterOffset, yCenterOffset + height);
+    gc->PushState();
+    gc->Translate(xCenterOffset, yCenterOffset + height);
 	gc->Scale(scale, -scale);
 
 	svgPath.render(&pathContext);
 
 	pathContext.fill();
+	gc->PopState();
 }
 
 void SvgGlyphCtrl::OnResize(wxSizeEvent &event)

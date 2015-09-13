@@ -12,6 +12,6 @@ struct SVGPATHAPI SvgGlyph
 
 	bool isOk() const
 	{
-		return !unicode.empty() &&  horizAdvX > 0 && unitsPerEm > 0;
+                return !unicode.empty() && unitsPerEm > 0;
 	}
 };
