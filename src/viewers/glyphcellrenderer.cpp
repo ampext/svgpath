@@ -29,13 +29,17 @@ void GlyphCellRenderer::Draw(wxGrid &grid, wxGridCellAttr &attr, wxDC &dc, const
     if (!glyph.isOk())
         return;
 
-    // Oh, crap
-    wxRect newRect = rect;
-    newRect.x += dc.GetDeviceOrigin().x;
-    newRect.y += dc.GetDeviceOrigin().y;
-
     std::unique_ptr<wxGraphicsContext> gc(wxGraphicsContext::Create(static_cast<wxPaintDC&>(dc)));
 	gc->SetBrush(wxBrush(*wxBLACK));
+
+    wxRect newRect = rect;
+
+    // Oh, crap
+    if (gc->GetRenderer()->GetName() == L"cairo")
+    {
+        newRect.x += dc.GetDeviceOrigin().x;
+        newRect.y += dc.GetDeviceOrigin().y;
+    }
 
     SvgPath path(glyph.data.ToStdString());
     SvgGlyphCtrl::RenderGlyph(gc.get(), newRect, path, glyph, fontSize);
