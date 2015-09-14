@@ -10,6 +10,8 @@
 			<glyph unicode="c" d="d2"/>
 			<glyph unicode=" "/>
 			<glyph unicode=""/>
+			<glyph unicode="&#x09;"/>
+			<glyph unicode="&#xfe09;"/>
 		</font>
 	</defs>
 </svg>

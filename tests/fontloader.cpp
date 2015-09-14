@@ -16,12 +16,14 @@ TEST_CASE("font loader")
 		CHECK(svgFont.GetUnitsPerEm() == 14);
 		CHECK(svgFont.GetAscent() == 14);
 		CHECK(svgFont.GetDescent() == -7);
-		CHECK(svgFont.GetGlyphs().size() == 4);
+		CHECK(svgFont.GetGlyphs().size() == 6);
 
 		const SvgGlyph &glyphA = svgFont.GetGlyph("a");
 		const SvgGlyph &glyphB = svgFont.GetGlyph("b");
 		const SvgGlyph &glyphC = svgFont.GetGlyph("c");
 		const SvgGlyph &glyphSpace = svgFont.GetGlyph(" ");
+		const SvgGlyph &glyphU0 = svgFont.GetGlyph({ (wchar_t) 0x09 });
+		const SvgGlyph &glyphU1 = svgFont.GetGlyph({ (wchar_t) 0xfe09 });
 
 		CHECK(glyphA.unicode == "a");
 		CHECK(glyphA.data == "d0");
@@ -40,6 +42,9 @@ TEST_CASE("font loader")
 		CHECK(glyphSpace.unicode == " ");
 		CHECK(glyphSpace.data.empty());
 		CHECK(glyphSpace.unitsPerEm == 14);
+
+		CHECK(glyphU0.isOk());
+		CHECK(glyphU1.isOk());
 
 		CHECK_FALSE(svgFont.LoadFromFile(executablePath + "/font1.svg"));
 		CHECK(svgFont.GetLastError() != wxEmptyString);
