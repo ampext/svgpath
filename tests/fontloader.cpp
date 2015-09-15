@@ -22,8 +22,8 @@ TEST_CASE("font loader")
 		const SvgGlyph &glyphB = svgFont.GetGlyph("b");
 		const SvgGlyph &glyphC = svgFont.GetGlyph("c");
 		const SvgGlyph &glyphSpace = svgFont.GetGlyph(" ");
-		const SvgGlyph &glyphU0 = svgFont.GetGlyph({ (wchar_t) 0x09 });
-		const SvgGlyph &glyphU1 = svgFont.GetGlyph({ (wchar_t) 0xfe09 });
+		const SvgGlyph &glyphU0 = svgFont.GetGlyph(0x09);
+		const SvgGlyph &glyphU1 = svgFont.GetGlyph(0xfe09);
 
 		CHECK(glyphA.unicode == "a");
 		CHECK(glyphA.data == "d0");

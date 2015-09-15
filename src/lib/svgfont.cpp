@@ -1,7 +1,6 @@
 #include "svgfont.h"
 
 #include <wx/xml/xml.h>
-#include <iostream>
 
 bool SvgFont::LoadFromFile(const wxString &filename)
 {
@@ -170,6 +169,11 @@ const SvgGlyph &SvgFont::GetGlyph(const wxString &unicode) const
 		return it->second;
 
 	return dummyGlyph;
+}
+
+const SvgGlyph &SvgFont::GetGlyph(int code) const
+{
+	return GetGlyph(wxString({ static_cast<wchar_t>(code) }));
 }
 
 const std::map<wxString, SvgGlyph> &SvgFont::GetGlyphs() const

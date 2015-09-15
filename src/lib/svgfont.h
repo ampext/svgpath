@@ -20,6 +20,8 @@ public:
 	int GetDescent() const;
 
 	const SvgGlyph &GetGlyph(const wxString &unicode) const;
+	const SvgGlyph &GetGlyph(int code) const;
+
 	const std::map<wxString, SvgGlyph> &GetGlyphs() const;
 
 private:
