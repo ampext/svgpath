@@ -18,4 +18,9 @@ public:
 private:
 	const std::map<wxString, SvgGlyph> &glyphs;
 	int fontSize;
+
+	wxFont labelFont;
+	wxColor labelColor;
+	
+	static const int padding = 4;
 };

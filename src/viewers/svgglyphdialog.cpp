@@ -26,6 +26,7 @@ SvgGlyphDialog::SvgGlyphDialog(wxWindow *parent): wxDialog(parent, wxID_ANY, wxE
 
 	glyphGrid->HideColLabels();
 	glyphGrid->HideRowLabels();
+	glyphGrid->EnableGridLines(false);
 	glyphGrid->SetColMinimalAcceptableWidth(30);
 	glyphGrid->SetRowMinimalAcceptableHeight(30);
     glyphGrid->DisableCellEditControl();
@@ -62,10 +63,10 @@ void SvgGlyphDialog::OnLoadFont(const wxString &path)
 			return !glyph.second.data.IsEmpty();
 		});
 
-		int cols = 20;
+		int cols = 10;
 		int rows = std::round(static_cast<float>(glyphCount) / cols + 0.5f);
 
-		glyphGrid->CreateGrid(rows, cols, wxGrid::wxGridSelectRows);
+		glyphGrid->CreateGrid(rows, cols, wxGrid:: wxGridSelectCells);
         glyphGrid->SetDefaultRenderer(new GlyphCellRenderer(svgFont.GetGlyphs(), fontSize));
 
 		int col = 0;
@@ -85,11 +86,8 @@ void SvgGlyphDialog::OnLoadFont(const wxString &path)
             glyphGrid->SetCellValue(row, col++, glyph.first);
 		}
 
-		for (int col = 0; col < glyphGrid->GetNumberCols(); col++)
-			glyphGrid->SetColSize(col, fontSize + 20);
-
-		for (int row = 0; row < glyphGrid->GetNumberRows(); row++)
-			glyphGrid->SetRowSize(row, fontSize + 20);
+		glyphGrid->AutoSize();
+		Layout();
 	}
 	else
 	{
