@@ -18,13 +18,13 @@ The library also provided wxWidgets control and path viewer application based on
     cd build
     cmake ..
     make
-If you have a custom wxWidgets build pass `-DwxWidgets_CONFIG_EXECUTABLE=<oath to wx-config>`
+If you have a custom wxWidgets build pass `-DwxWidgets_CONFIG_EXECUTABLE=<path to wx-config>`
 ###Windows (Visual Studio)
     mkdir build
     cd build
     cmake -G "NMake Makefiles" -DwxWidgets_ROOT_DIR=<path to wxWidgets> ..
     nmake
 ####CMake Options
-`-DTESTS=1/0` for enable or disable tests from build
+`-DTESTS=1/0` for enable or disable tests from build. Execute `wget -P tests https://raw.githubusercontent.com/philsquared/Catch/master/single_include/catch.hpp` in source root directory for fetching dependency
 
 `-DVIEWERS=1/0` for enable or disable viewers from build
