@@ -1,7 +1,9 @@
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 2.8)
 
 option(TESTS "build tests" ON)
 option(VIEWERS "build viewers" ON)
+
+add_definitions(-D_CRT_SECURE_NO_WARNINGS)
 
 include_directories(${CAIRO_INCLUDE})
 
