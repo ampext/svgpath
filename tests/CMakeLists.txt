@@ -1,5 +1,4 @@
 project(tests)
-cmake_minimum_required(VERSION 2.8)
 
 include_directories(${CATCH_INCLUDE} "../src/lib")
 
