@@ -106,6 +106,8 @@ bool SvgFont::LoadFromFile(const wxString &filename)
 					toInteger(str, &glyph.horizAdvX);
 
 				glyph.unitsPerEm = unitsPerEm;
+				glyph.descent = descent;
+				glyph.ascent = ascent;
 
 				glyphs[glyph.unicode] = glyph;
 			}

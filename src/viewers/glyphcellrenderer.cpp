@@ -1,4 +1,5 @@
 #include "glyphcellrenderer.h"
+#include "wxcontext.h"
 
 #include <wx/dcclient.h>
 #include <wx/graphics.h>
@@ -48,15 +49,28 @@ void GlyphCellRenderer::Draw(wxGrid &grid, wxGridCellAttr &attr, wxDC &dc, const
 
     newRect.height -= labelFont.GetPixelSize().GetHeight() + 2 * padding;
 
-    SvgPath path(glyph.data.ToStdString());
-    SvgGlyphCtrl::RenderGlyph(gc.get(), newRect, path, glyph, fontSize);
+    std::map<wxString, wxBitmap>::iterator findIt = glyphCache.find(glyph.unicode);
 
-    gc->SetFont(labelFont, labelColor);
+    if (findIt == glyphCache.end())
+    {
+        bool result;
+        std::tie(findIt, result) = glyphCache.emplace(glyph.unicode, GetBitmapForGlyph(glyph, fontSize));
+
+        if (!result) return;
+    }
+
+    const wxBitmap &glyphBitmap = findIt->second;
+
+    gc->DrawBitmap(glyphBitmap,
+        newRect.x + (newRect.width - glyphBitmap.GetWidth()) / 2,
+        newRect.y + (newRect.height - glyphBitmap.GetHeight()) / 2,
+        glyphBitmap.GetWidth(), glyphBitmap.GetHeight());
 
     double width, height, descent, externalLeading;
 
+    gc->SetFont(labelFont, labelColor);
     gc->GetTextExtent(label, &width, &height, &descent, &externalLeading);
-    gc->DrawText(label, newRect.x + (newRect.width - width) / 2, newRect.y + newRect.height + 2 * padding);
+    gc->DrawText(label, newRect.x + (newRect.width - width) / 2, newRect.y + newRect.height + padding);
 }
 
 wxSize GlyphCellRenderer::GetBestSize(wxGrid &grid, wxGridCellAttr &attr, wxDC &dc, int row, int col)

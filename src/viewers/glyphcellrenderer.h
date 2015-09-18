@@ -3,6 +3,8 @@
 #include <svgglyphctrl.h>
 
 #include <wx/grid.h>
+#include <wx/bitmap.h>
+
 #include <map>
 
 class GlyphCellRenderer: public wxGridCellRenderer
@@ -22,5 +24,8 @@ private:
 	wxFont labelFont;
 	wxColor labelColor;
 	
+	// It is not good to store cache as collection of wxBitmap under Windows because each wxBitmap is GDI object
+	std::map<wxString, wxBitmap> glyphCache;
+
 	static const int padding = 4;
 };

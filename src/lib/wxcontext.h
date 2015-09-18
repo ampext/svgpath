@@ -4,6 +4,9 @@
 #include "graphicscontext.h"
 
 #include <wx/graphics.h>
+#include <wx/bitmap.h>
+
+struct SvgGlyph;
 
 class SVGPATHAPI wxContext: public GraphicsContext
 {
@@ -24,3 +27,5 @@ private:
 	wxGraphicsContext *g;
 	wxGraphicsPath path;
 };
+
+SVGPATHAPI wxBitmap GetBitmapForGlyph(const SvgGlyph &glyph, int size, const wxColor &color = *wxBLACK);

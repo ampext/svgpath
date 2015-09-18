@@ -1,5 +1,10 @@
 #include "wxcontext.h"
-#include <wx/graphics.h>
+#include "svgglyph.h"
+#include "svgpath.h"
+
+#include <wx/dcmemory.h>
+
+#include <memory>
 
 wxContext::wxContext(wxGraphicsContext *g)
 {
@@ -45,4 +50,45 @@ void wxContext::stroke()
 void wxContext::fill()
 {
 	g->FillPath(path, wxWINDING_RULE);
+}
+
+wxBitmap GetBitmapForGlyph(const SvgGlyph &glyph, int size, const wxColor &color)
+{
+	if (!glyph.isOk())
+		return wxNullBitmap;
+
+	SvgPath path(glyph.data.ToStdString());
+
+	if (!path.isOk())
+		return wxNullBitmap;
+
+    int width = glyph.getWidth(size);
+	int height = glyph.getHeight(size);
+	double scale = static_cast<double>(width) / (glyph.horizAdvX > 0 ? glyph.horizAdvX : glyph.unitsPerEm);
+
+	wxBitmap bitmap(width, height, 32);
+	wxMemoryDC memoryDC;
+
+	memoryDC.SelectObject(bitmap);
+	memoryDC.SetBackgroundMode(wxPENSTYLE_TRANSPARENT);
+	memoryDC.Clear();
+
+    std::unique_ptr<wxGraphicsContext> gc(wxGraphicsContext::Create(memoryDC));
+	gc->SetBrush(wxBrush(color));
+
+	wxContext pathContext(gc.get());
+
+    gc->PushState();
+    gc->Translate(0, height + glyph.getVerticalOffset(size));
+	gc->Scale(scale, -scale);
+
+	path.render(&pathContext);
+
+	pathContext.fill();
+	gc->PopState();
+
+	gc.reset();
+	memoryDC.SelectObject(wxNullBitmap);
+
+	return bitmap;
 }
