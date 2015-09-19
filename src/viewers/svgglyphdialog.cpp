@@ -32,6 +32,7 @@ SvgGlyphDialog::SvgGlyphDialog(wxWindow *parent): wxDialog(parent, wxID_ANY, wxE
     glyphGrid->DisableCellEditControl();
     glyphGrid->SetCellHighlightPenWidth(0);
     glyphGrid->SetCellHighlightROPenWidth(0);
+    glyphGrid->DisableDragGridSize();
 
 	fnCtrl->Disable();
 
