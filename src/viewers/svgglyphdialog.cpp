@@ -34,6 +34,37 @@ SvgGlyphDialog::SvgGlyphDialog(wxWindow *parent): wxDialog(parent, wxID_ANY, wxE
     glyphGrid->SetCellHighlightROPenWidth(0);
     glyphGrid->DisableDragGridSize();
 
+    glyphGrid->GetGridWindow()->Bind(wxEVT_MOTION, [this] (wxMouseEvent &event)
+    {
+    	if (cellRenderer)
+    	{
+    		wxCoord x, y;
+			glyphGrid->CalcUnscrolledPosition(event.GetX(), event.GetY(), &x, &y);
+
+    		wxGridCellCoords oldCoords = cellRenderer->GetHighlightCell();
+    		wxGridCellCoords newCoords = glyphGrid->XYToCell(x, y);
+
+    		if (oldCoords != newCoords)
+    		{
+    			cellRenderer->SetHighlightCell(newCoords);
+
+    			RefreshCell(oldCoords);
+    			RefreshCell(newCoords);
+    		}
+    	}
+    });
+
+    glyphGrid->GetGridWindow()->Bind(wxEVT_LEAVE_WINDOW, [this] (wxMouseEvent &event)
+    {
+    	if (cellRenderer)
+    	{
+	    	wxGridCellCoords oldCoords = cellRenderer->GetHighlightCell();
+
+	    	cellRenderer->SetHighlightCell(wxGridCellCoords());
+	    	RefreshCell(oldCoords);
+    	}
+    });
+
 	fnCtrl->Disable();
 
 	fnButton->Bind(wxEVT_BUTTON, [this] (wxCommandEvent&)
@@ -54,6 +85,7 @@ SvgGlyphDialog::SvgGlyphDialog(wxWindow *parent): wxDialog(parent, wxID_ANY, wxE
 void SvgGlyphDialog::OnLoadFont(const wxString &path)
 {
 	glyphGrid->SetTable(nullptr);
+	cellRenderer = nullptr;
 
 	if (svgFont.LoadFromFile(path))
 	{
@@ -68,7 +100,7 @@ void SvgGlyphDialog::OnLoadFont(const wxString &path)
 		int rows = std::round(static_cast<float>(glyphCount) / cols + 0.5f);
 
 		glyphGrid->CreateGrid(rows, cols, wxGrid:: wxGridSelectCells);
-        glyphGrid->SetDefaultRenderer(new GlyphCellRenderer(svgFont.GetGlyphs(), fontSize));
+        glyphGrid->SetDefaultRenderer(cellRenderer = new GlyphCellRenderer(svgFont.GetGlyphs(), fontSize));
 
 		int col = 0;
 		int row = 0;
@@ -95,4 +127,11 @@ void SvgGlyphDialog::OnLoadFont(const wxString &path)
 		wxMessageBox(L"Can not open file", L"Error");
 		fnCtrl->SetValue(wxEmptyString);
 	}
+}
+
+void SvgGlyphDialog::RefreshCell(const wxGridCellCoords &coords)
+{
+	wxRect rect = glyphGrid->CellToRect(coords);
+	glyphGrid->CalcScrolledPosition(rect.x, rect.y, &rect.x, &rect.y);
+	glyphGrid->GetGridWindow()->Refresh(false, &rect);
 }

@@ -10,12 +10,24 @@
 GlyphCellRenderer::GlyphCellRenderer(const std::map<wxString, SvgGlyph> &glyphs, int fontSize): glyphs(glyphs), fontSize(fontSize)
 {
     labelFont = wxSystemSettings::GetFont(wxSYS_DEFAULT_GUI_FONT);
-    labelColor = wxBLACK->ChangeLightness(150);
+    glyphColor = wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT);
+    hlColor = wxSystemSettings::GetColour(wxSYS_COLOUR_BTNFACE);
+    labelColor = glyphColor.ChangeLightness(150);
 }
 
 wxGridCellRenderer *GlyphCellRenderer::Clone() const
 {
 	return nullptr;
+}
+
+void GlyphCellRenderer::SetHighlightCell(const wxGridCellCoords &coords)
+{
+    hlCellCoords = coords;
+}
+
+const wxGridCellCoords &GlyphCellRenderer::GetHighlightCell() const
+{
+    return hlCellCoords;
 }
 
 void GlyphCellRenderer::Draw(wxGrid &grid, wxGridCellAttr &attr, wxDC &dc, const wxRect &rect, int row, int col, bool isSelected)
@@ -36,7 +48,6 @@ void GlyphCellRenderer::Draw(wxGrid &grid, wxGridCellAttr &attr, wxDC &dc, const
     label.Printf("%04x", glyph.unicode[0]);
 
     std::unique_ptr<wxGraphicsContext> gc(wxGraphicsContext::Create(static_cast<wxPaintDC&>(dc)));
-	gc->SetBrush(wxBrush(*wxBLACK));
 
     wxRect newRect = rect;
 
@@ -47,8 +58,6 @@ void GlyphCellRenderer::Draw(wxGrid &grid, wxGridCellAttr &attr, wxDC &dc, const
         newRect.y += dc.GetDeviceOrigin().y;
     }
 
-    newRect.height -= labelFont.GetPixelSize().GetHeight() + 2 * padding;
-
     std::map<wxString, wxBitmap>::iterator findIt = glyphCache.find(glyph.unicode);
 
     if (findIt == glyphCache.end())
@@ -58,6 +67,14 @@ void GlyphCellRenderer::Draw(wxGrid &grid, wxGridCellAttr &attr, wxDC &dc, const
 
         if (!result) return;
     }
+
+    if (hlCellCoords.GetCol() == col && hlCellCoords.GetRow() == row)
+    {
+        gc->SetPen(wxPen(hlColor, 1));
+        gc->DrawRoundedRectangle(newRect.x + 1, newRect.y + 1, newRect.width - 2, newRect.height - 2, 5);
+    }
+
+    newRect.height -= labelFont.GetPixelSize().GetHeight() + 2 * padding;
 
     const wxBitmap &glyphBitmap = findIt->second;
 
