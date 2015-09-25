@@ -1,5 +1,8 @@
 cmake_minimum_required(VERSION 2.8)
-cmake_policy(SET CMP0043 OLD)
+
+if(POLICY CMP0043)
+	cmake_policy(SET CMP0043 OLD)
+endif()
 
 option(TESTS "build tests" ON)
 option(VIEWERS "build viewers" ON)

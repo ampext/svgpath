@@ -2,6 +2,7 @@
 
 #include "defs.h"
 #include <wx/string.h>
+#include <cmath>
 
 struct SVGPATHAPI SvgGlyph
 {

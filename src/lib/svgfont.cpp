@@ -1,5 +1,6 @@
 #include "svgfont.h"
 
+#include <cmath>
 #include <wx/xml/xml.h>
 
 bool SvgFont::LoadFromFile(const wxString &filename)

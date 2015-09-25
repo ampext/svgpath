@@ -7,6 +7,8 @@
 #include <wx/msgdlg.h> 
 #include <wx/filename.h>
 
+ #include <algorithm>
+
 SvgGlyphDialog::SvgGlyphDialog(wxWindow *parent): wxDialog(parent, wxID_ANY, wxEmptyString,
 	wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER)
 {
