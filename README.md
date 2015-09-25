@@ -1,5 +1,6 @@
-#svgpath
-##C++ library for rendering SVG paths and glyphs
+#svgpath 
+##C++ library for rendering SVG paths and glyphs 
+[![Build Status](https://travis-ci.org/ampext/svgpath.svg?branch=master)](https://travis-ci.org/ampext/svgpath)
 
 The library provides wxWidgets controls and methods for rendering svg path data and svg fonts (WebFonts sush as "Font Awesome"). Supports wxGraphicsContext and Cairo backends. Temporary arcTo path element not implemented.
 The library also provided wxWidgets control and path viewer application based on this widget.
