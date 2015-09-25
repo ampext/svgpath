@@ -1,0 +1,20 @@
+language: cpp
+
+compiler:
+  - gcc
+
+
+platform:
+  - x64
+
+configuration:
+  - Release
+
+install:
+  - sudo add-apt-repository -y ppa:wxformbuilder/wxwidgets
+
+before_build:
+  - mkdir build
+  - cd build
+  - cmake -DCMAKE_BUILD_TYPE=Release -DTESTS=0 ..
+  - make
