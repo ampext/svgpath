@@ -42,7 +42,7 @@ void GlyphCellRenderer::Draw(wxGrid &grid, wxGridCellAttr &attr, wxDC &dc, const
 	
     const SvgGlyph &glyph = it->second;
 
-    if (!glyph.isOk())
+    if (!glyph.IsOk())
         return;
 
     label.Printf("%04x", glyph.unicode[0]);

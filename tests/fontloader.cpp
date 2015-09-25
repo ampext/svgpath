@@ -43,8 +43,8 @@ TEST_CASE("font loader")
 		CHECK(glyphSpace.data.empty());
 		CHECK(glyphSpace.unitsPerEm == 14);
 
-		CHECK(glyphU0.isOk());
-		CHECK(glyphU1.isOk());
+		CHECK(glyphU0.IsOk());
+		CHECK(glyphU1.IsOk());
 
 		CHECK_FALSE(svgFont.LoadFromFile(executablePath + "/font1.svg"));
 		CHECK(svgFont.GetLastError() != wxEmptyString);

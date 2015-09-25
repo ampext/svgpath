@@ -54,7 +54,7 @@ void wxContext::fill()
 
 wxBitmap GetBitmapForGlyph(const SvgGlyph &glyph, int size, const wxColor &color)
 {
-	if (!glyph.isOk())
+	if (!glyph.IsOk())
 		return wxNullBitmap;
 
 	SvgPath path(glyph.data.ToStdString());
@@ -62,8 +62,8 @@ wxBitmap GetBitmapForGlyph(const SvgGlyph &glyph, int size, const wxColor &color
 	if (!path.isOk())
 		return wxNullBitmap;
 
-    int width = glyph.getWidth(size);
-	int height = glyph.getHeight(size);
+    int width = glyph.GetWidth(size);
+	int height = glyph.GetHeight(size);
 	double scale = static_cast<double>(width) / (glyph.horizAdvX > 0 ? glyph.horizAdvX : glyph.unitsPerEm);
 
 	wxBitmap bitmap(width, height, 32);
@@ -79,7 +79,7 @@ wxBitmap GetBitmapForGlyph(const SvgGlyph &glyph, int size, const wxColor &color
 	wxContext pathContext(gc.get());
 
     gc->PushState();
-    gc->Translate(0, height + glyph.getVerticalOffset(size));
+    gc->Translate(0, height + glyph.GetVerticalOffset(size));
 	gc->Scale(scale, -scale);
 
 	path.render(&pathContext);

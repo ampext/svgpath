@@ -12,22 +12,22 @@ struct SVGPATHAPI SvgGlyph
 	int ascent = 0;
 	int descent = 0;
 
-	bool isOk() const
+	bool IsOk() const
 	{
 		return !unicode.empty() && unitsPerEm > 0;
 	}
 
-	int getWidth(int size) const
+	int GetWidth(int size) const
 	{
 		return horizAdvX <= 0 ? size : std::round(static_cast<double>(horizAdvX) / unitsPerEm * size);
 	}
 
-	int getHeight(int size) const
+	int GetHeight(int size) const
 	{
 		return size;
 	}
 
-	int getVerticalOffset(int size) const
+	int GetVerticalOffset(int size) const
 	{
 		return static_cast<double>(descent)  / unitsPerEm * size;
 	}
