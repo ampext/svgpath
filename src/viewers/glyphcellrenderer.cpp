@@ -51,8 +51,15 @@ void GlyphCellRenderer::Draw(wxGrid &grid, wxGridCellAttr &attr, wxDC &dc, const
 
     wxRect newRect = rect;
 
+    // replace with gc->GetRenderer()->GetName() == L"cairo" after wx 3.1
+    bool isCairo = false;
+
+    #if wxUSE_CAIRO
+        isCairo = true;
+    #endif
+
     // Oh, crap
-    if (gc->GetRenderer()->GetName() == L"cairo")
+    if (isCairo)
     {
         newRect.x += dc.GetDeviceOrigin().x;
         newRect.y += dc.GetDeviceOrigin().y;
