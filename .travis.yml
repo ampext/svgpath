@@ -19,6 +19,7 @@ before_install:
   
 install:
   - sudo apt-get install libwxgtk3.0-dev g++-4.8 libstdc++-4.8-dev libcairo2-dev 
+  - wget -P tests https://raw.githubusercontent.com/philsquared/Catch/master/single_include/catch.hpp
   - export CXX="g++-4.8"
 
 script:
