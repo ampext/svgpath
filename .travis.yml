@@ -3,7 +3,6 @@ language: cpp
 compiler:
   - gcc
 
-
 platform:
   - x64
 
@@ -18,11 +17,10 @@ before_install:
 install:
   - sudo apt-get install libwxgtk3.0-dev g++-4.8 libstdc++-4.8-dev libcairo2-dev 
   - export CXX="g++-4.8"
-  - echo "CXX=$CXX"
-  - echo "version `$CXX --version`"
 
 script:
   - mkdir build
   - cd build
-  - cmake -DCMAKE_BUILD_TYPE=Release -DTESTS=0 ..
+  - cmake -DCMAKE_BUILD_TYPE=Release ..
   - make
+  - ./tests/tests
