@@ -20,6 +20,9 @@ public:
 	void SetHighlightCell(const wxGridCellCoords &coords);
 	const wxGridCellCoords &GetHighlightCell() const;
 
+	void SetFontSize(int size);
+	int GetFontSize() const;
+
 private:
 	const std::map<wxString, SvgGlyph> &glyphs;
 	int fontSize;

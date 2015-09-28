@@ -6,6 +6,7 @@
 #include <wx/filedlg.h>
 #include <wx/msgdlg.h> 
 #include <wx/filename.h>
+#include <wx/choice.h>
 
  #include <algorithm>
 
@@ -13,6 +14,7 @@ SvgGlyphDialog::SvgGlyphDialog(wxWindow *parent): wxDialog(parent, wxID_ANY, wxE
 	wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER)
 {
     wxButton *fnButton;
+    wxChoice *sizeChoice;
 
 	wxBoxSizer *sizer = new wxBoxSizer(wxVERTICAL);
 	{
@@ -20,11 +22,19 @@ SvgGlyphDialog::SvgGlyphDialog(wxWindow *parent): wxDialog(parent, wxID_ANY, wxE
 		{
 			hSizer->Add(fnCtrl = new wxTextCtrl(this, wxID_ANY), 1, wxALL | wxEXPAND, 5);
 			hSizer->Add(fnButton = new wxButton(this, wxID_ANY, "...", wxDefaultPosition, wxDefaultSize, wxBU_EXACTFIT), 0, wxALL | wxEXPAND, 5);
+			hSizer->Add(sizeChoice = new wxChoice(this, wxID_ANY), 0, wxALL | wxEXPAND, 5);
 		}
 
 		sizer->Add(hSizer, 0, wxALL | wxEXPAND, 5);
 		sizer->Add(glyphGrid = new wxGrid(this, wxID_ANY), 1, wxALL | wxEXPAND, 5);
 	}
+
+	fontSizes = { 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36 };
+
+	for (int size: fontSizes)
+		sizeChoice->Append(wxString::Format("%d", size));
+
+	sizeChoice->SetSelection(1);
 
 	glyphGrid->HideColLabels();
 	glyphGrid->HideRowLabels();
@@ -79,6 +89,14 @@ SvgGlyphDialog::SvgGlyphDialog(wxWindow *parent): wxDialog(parent, wxID_ANY, wxE
 	    this->OnLoadFont(fileDialog.GetPath());
 	});
 
+	sizeChoice->Bind(wxEVT_CHOICE, [this, sizeChoice] (wxCommandEvent&)
+	{
+		int fontSize = fontSizes.at(sizeChoice->GetCurrentSelection());
+		cellRenderer->SetFontSize(fontSize);
+		glyphGrid->AutoSize();
+		Layout();
+	});
+
 	SetSizer(sizer);
 	SetSize(400, 400);
     SetLabel(L"SVG Glyph Viewer");
@@ -102,7 +120,7 @@ void SvgGlyphDialog::OnLoadFont(const wxString &path)
 		int rows = std::round(static_cast<float>(glyphCount) / cols + 0.5f);
 
 		glyphGrid->CreateGrid(rows, cols, wxGrid:: wxGridSelectCells);
-        glyphGrid->SetDefaultRenderer(cellRenderer = new GlyphCellRenderer(svgFont.GetGlyphs(), fontSize));
+        glyphGrid->SetDefaultRenderer(cellRenderer = new GlyphCellRenderer(svgFont.GetGlyphs(), 14));
 
 		int col = 0;
 		int row = 0;

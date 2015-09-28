@@ -30,6 +30,20 @@ const wxGridCellCoords &GlyphCellRenderer::GetHighlightCell() const
     return hlCellCoords;
 }
 
+void GlyphCellRenderer::SetFontSize(int size)
+{
+    if (fontSize != size)
+    {
+        fontSize = size;
+        glyphCache.clear();
+    }
+}
+
+int GlyphCellRenderer::GetFontSize() const
+{
+    return fontSize;
+}
+
 void GlyphCellRenderer::Draw(wxGrid &grid, wxGridCellAttr &attr, wxDC &dc, const wxRect &rect, int row, int col, bool isSelected)
 {
     wxGridCellRenderer::Draw(grid, attr, dc, rect, row, col, false);

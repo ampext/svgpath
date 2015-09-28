@@ -23,5 +23,5 @@ private:
 	GlyphCellRenderer *cellRenderer = nullptr;
 
 	SvgFont svgFont;
-	int fontSize = 14; // defaut font size
+	std::vector<int> fontSizes;
 };
