@@ -5,6 +5,7 @@
 #include <wx/dialog.h>
 #include <wx/grid.h>
 #include <wx/textctrl.h>
+#include <vector>
 
 class GlyphCellRenderer;
 
