@@ -34,6 +34,7 @@ public:
 	void OnPaint(wxPaintEvent& event) override;
 	void OnResize(wxSizeEvent &event) override;
 	wxSize GetMinClientSize() const override;
+	wxSize GetMinSize() const override;
 
 	static void RenderGlyph(wxGraphicsContext *gc, const wxRect &rect, const SvgPath &svgPath, const SvgGlyph &glyph, int size);
 
@@ -41,8 +42,11 @@ public:
 	void SetFontSize(int size);
 	int GetFontSize() const;
 
+	void SetPadding(int padding);
+	int GetPadding() const;
+
 private:
 	SvgGlyph svgGlyph;
 	int fontSize = 14;
-	int glyphWidth = 0;
+	int padding = 1;
 };

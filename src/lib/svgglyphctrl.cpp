@@ -26,10 +26,25 @@ int SvgGlyphCtrl::GetFontSize() const
 	return fontSize;
 }
 
+void SvgGlyphCtrl::SetPadding(int padding)
+{
+	this->padding = padding;
+}
+
+int SvgGlyphCtrl::GetPadding() const
+{
+	return padding;
+}
+
 wxSize SvgGlyphCtrl::GetMinClientSize() const
 {
-	if (svgGlyph.IsOk()) return wxSize(svgGlyph.GetWidth(fontSize), fontSize);
-	return wxSize(8, 8);
+	if (svgGlyph.IsOk()) return wxSize(svgGlyph.GetWidth(fontSize) + 2 * padding, svgGlyph.GetHeight(fontSize) + 2 * padding);
+	return wxSize(2 * padding, 2 * padding);
+}
+
+wxSize SvgGlyphCtrl::GetMinSize() const
+{
+	return GetMinClientSize();
 }
 
 void SvgGlyphCtrl::OnPaint(wxPaintEvent& event)
