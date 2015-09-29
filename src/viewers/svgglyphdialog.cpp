@@ -1,5 +1,6 @@
 #include "svgglyphdialog.h"
 #include "glyphcellrenderer.h"
+#include "glyphpreviewdialog.h"
 
 #include <wx/sizer.h>
 #include <wx/button.h>
@@ -64,6 +65,25 @@ SvgGlyphDialog::SvgGlyphDialog(wxWindow *parent): wxDialog(parent, wxID_ANY, wxE
     			RefreshCell(newCoords);
     		}
     	}
+    });
+
+    glyphGrid->GetGridWindow()->Bind(wxEVT_LEFT_DCLICK, [this] (wxMouseEvent &event)
+    {
+        if (cellRenderer)
+    	{
+    		wxCoord x, y;
+			glyphGrid->CalcUnscrolledPosition(event.GetX(), event.GetY(), &x, &y);
+			wxGridCellCoords coords = glyphGrid->XYToCell(x, y);
+
+			wxString value = glyphGrid->GetTable()->GetValue(coords.GetRow(), coords.GetCol());
+			const SvgGlyph &glyph = svgFont.GetGlyph(value);
+
+			if (glyph.IsOk())
+			{
+				GlyphPreviewDialog dlg(this, glyph);
+				dlg.ShowModal();
+			}
+		}
     });
 
     glyphGrid->GetGridWindow()->Bind(wxEVT_LEAVE_WINDOW, [this] (wxMouseEvent &event)
