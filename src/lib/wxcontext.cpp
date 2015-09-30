@@ -62,11 +62,33 @@ wxBitmap GetBitmapForGlyph(const SvgGlyph &glyph, int size, const wxColor &color
 	if (!path.isOk())
 		return wxNullBitmap;
 
-    int width = glyph.GetWidth(size);
-	int height = glyph.GetHeight(size);
-	double scale = static_cast<double>(width) / (glyph.horizAdvX > 0 ? glyph.horizAdvX : glyph.unitsPerEm);
+	double x, y, w, h;
+	{
+		wxBitmap bitmap(1, 1);
+		wxMemoryDC dc;
+		dc.SelectObject(bitmap);
 
-	wxBitmap bitmap(width, height, 32);
+		std::unique_ptr<wxGraphicsContext> gc(wxGraphicsContext::Create(dc));
+
+		wxContext pathContext(gc.get());
+
+		path.render(&pathContext);
+		pathContext.getBoundingRect(x, y, w, h);
+
+		double k = static_cast<double>(size) / glyph.unitsPerEm;
+
+		x *= k;
+		y *= k;
+		w *= k;
+		h *= k;
+	}
+
+	double scale = static_cast<double>(glyph.GetWidth(size)) / (glyph.horizAdvX > 0 ? glyph.horizAdvX : glyph.unitsPerEm);
+
+	int bitmapWidth = std::max<int>(std::round(w), glyph.GetWidth(size));
+	int bitmapHeight = std::max<int>(std::round(h), glyph.GetHeight(size));
+
+	wxBitmap bitmap(bitmapWidth, bitmapHeight, 32);
 	wxMemoryDC memoryDC;
 
 	memoryDC.SelectObject(bitmap);
@@ -79,7 +101,7 @@ wxBitmap GetBitmapForGlyph(const SvgGlyph &glyph, int size, const wxColor &color
 	wxContext pathContext(gc.get());
 
     gc->PushState();
-    gc->Translate(0, height + glyph.GetVerticalOffset(size));
+    gc->Translate(0, bitmapHeight + y);
 	gc->Scale(scale, -scale);
 
 	path.render(&pathContext);
