@@ -111,6 +111,8 @@ SvgGlyphDialog::SvgGlyphDialog(wxWindow *parent): wxDialog(parent, wxID_ANY, wxE
 
     sizeChoice->Bind(wxEVT_CHOICE, [this, sizeChoice] (wxCommandEvent&)
 	{
+		if (!cellRenderer) return;
+
 		int fontSize = fontSizes.at(sizeChoice->GetCurrentSelection());
 		cellRenderer->SetFontSize(fontSize);
 		glyphGrid->AutoSize();
