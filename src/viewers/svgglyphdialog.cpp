@@ -109,7 +109,7 @@ SvgGlyphDialog::SvgGlyphDialog(wxWindow *parent): wxDialog(parent, wxID_ANY, wxE
 	    this->OnLoadFont(fileDialog.GetPath());
 	});
 
-	sizeChoice->Bind(wxEVT_CHOICE, [&] (wxCommandEvent&)
+    sizeChoice->Bind(wxEVT_CHOICE, [this, sizeChoice] (wxCommandEvent&)
 	{
 		int fontSize = fontSizes.at(sizeChoice->GetCurrentSelection());
 		cellRenderer->SetFontSize(fontSize);
