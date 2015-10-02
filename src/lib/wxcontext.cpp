@@ -81,21 +81,29 @@ wxBitmap GetBitmapForGlyph(const SvgGlyph &glyph, int size, const wxColor &color
 		y *= k;
 		w *= k;
 		h *= k;
+
+		// one pixel border for AA
+		x -= 1;
+		y -= 1;
+		w += 2;
+		h += 2;
 	}
 
 	double scale = static_cast<double>(glyph.GetWidth(size)) / (glyph.horizAdvX > 0 ? glyph.horizAdvX : glyph.unitsPerEm);
 
-	int bitmapWidth = std::max<int>(std::round(w), glyph.GetWidth(size));
-	int bitmapHeight = std::max<int>(std::round(h), glyph.GetHeight(size));
+	int bitmapWidth = std::max<int>(std::round(w + 2), glyph.GetWidth(size));
+	int bitmapHeight = std::max<int>(std::round(h + 2), glyph.GetHeight(size));
 
-	wxBitmap bitmap(bitmapWidth, bitmapHeight, 32);
-	wxMemoryDC memoryDC;
+	wxImage image(bitmapWidth, bitmapHeight, true);
+	image.InitAlpha();
 
-	memoryDC.SelectObject(bitmap);
-	memoryDC.SetBackgroundMode(wxPENSTYLE_TRANSPARENT);
-	memoryDC.Clear();
+    std::unique_ptr<wxGraphicsContext> gc(wxGraphicsContext::Create(image));
 
-    std::unique_ptr<wxGraphicsContext> gc(wxGraphicsContext::Create(memoryDC));
+    gc->SetCompositionMode(wxCOMPOSITION_SOURCE);
+	gc->SetBrush(wxBrush(wxColor(0, 0, 0, 0), wxBRUSHSTYLE_SOLID));
+    gc->DrawRectangle(0, 0, bitmapWidth, bitmapHeight);
+    gc->SetCompositionMode(wxCOMPOSITION_OVER);
+
 	gc->SetBrush(wxBrush(color));
 
 	wxContext pathContext(gc.get());
@@ -110,7 +118,6 @@ wxBitmap GetBitmapForGlyph(const SvgGlyph &glyph, int size, const wxColor &color
 	gc->PopState();
 
 	gc.reset();
-	memoryDC.SelectObject(wxNullBitmap);
 
-	return bitmap;
+	return wxBitmap(image, 32);
 }

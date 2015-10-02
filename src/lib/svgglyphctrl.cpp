@@ -2,7 +2,6 @@
 #include "wxcontext.h"
 
 #include <wx/dcclient.h>
-#include <wx/graphics.h>
 
 #include <memory>
 
@@ -18,7 +17,11 @@ bool SvgGlyphCtrl::Create(wxWindow *parent, wxWindowID id, const SvgGlyph &glyph
 
 void SvgGlyphCtrl::SetFontSize(int size)
 {
-	fontSize = size;
+	if (fontSize != size)
+	{
+		glyphBitmap = wxNullBitmap;
+		fontSize = size;
+	}
 }
 
 int SvgGlyphCtrl::GetFontSize() const
@@ -36,15 +39,42 @@ int SvgGlyphCtrl::GetPadding() const
 	return padding;
 }
 
+void SvgGlyphCtrl::SetColor(const wxColor &color)
+{
+	if (this->color != color)
+	{
+		glyphBitmap = wxNullBitmap;
+		SvgPathCtrlBase::SetColor(color);
+	}
+}
+
 wxSize SvgGlyphCtrl::GetMinClientSize() const
 {
-	if (svgGlyph.IsOk()) return wxSize(svgGlyph.GetWidth(fontSize) + 2 * padding, svgGlyph.GetHeight(fontSize) + 2 * padding);
-	return wxSize(2 * padding, 2 * padding);
+	wxSize size(2 * padding, 2 * padding);
+
+	if (!svgGlyph.IsOk()) return size;
+
+	if (!glyphBitmap.IsOk())
+	{
+		CreateBitmap();
+
+		if (!glyphBitmap.IsOk())
+			return size;
+	}
+
+	size.IncBy(glyphBitmap.GetWidth(), glyphBitmap.GetHeight());
+
+	return size;
 }
 
 wxSize SvgGlyphCtrl::GetMinSize() const
 {
 	return GetMinClientSize();
+}
+
+void SvgGlyphCtrl::CreateBitmap() const
+{
+	glyphBitmap = GetBitmapForGlyph(svgGlyph, fontSize, color);
 }
 
 void SvgGlyphCtrl::OnPaint(wxPaintEvent& event)
@@ -53,35 +83,20 @@ void SvgGlyphCtrl::OnPaint(wxPaintEvent& event)
 
 	DrawBackground(dc);
 
-	if (!svgPath.isOk() || !svgGlyph.IsOk())
+	if (!svgGlyph.IsOk())
 		return;
 
-    std::unique_ptr<wxGraphicsContext> gc(wxGraphicsContext::Create(dc));
-	gc->SetBrush(wxBrush(color));
+	if (!glyphBitmap.IsOk())
+	{
+		CreateBitmap();
 
-    RenderGlyph(gc.get(), GetClientRect(), svgPath, svgGlyph, fontSize);
+		if (!glyphBitmap.IsOk())
+			return;
+	}
+
+	dc.DrawBitmap(glyphBitmap, padding, padding);
 }
 
-void SvgGlyphCtrl::RenderGlyph(wxGraphicsContext *gc, const wxRect &rect, const SvgPath &svgPath, const SvgGlyph &glyph, int size)
-{
-    int width = glyph.GetWidth(size);
-	int height = glyph.GetHeight(size);
-    double scale = static_cast<double>(width) / (glyph.horizAdvX > 0 ? glyph.horizAdvX : glyph.unitsPerEm);
-
-	wxContext pathContext(gc);
-
-    double xCenterOffset = std::round(rect.x + (rect.GetWidth() - width) / 2);
-    double yCenterOffset = std::round(rect.y + (rect.GetHeight() - height) / 2);
-
-    gc->PushState();
-    gc->Translate(xCenterOffset, yCenterOffset + height + glyph.GetVerticalOffset(size));
-	gc->Scale(scale, -scale);
-
-	svgPath.render(&pathContext);
-
-	pathContext.fill();
-	gc->PopState();
-}
 
 void SvgGlyphCtrl::OnResize(wxSizeEvent &event)
 {

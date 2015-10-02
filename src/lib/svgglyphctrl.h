@@ -3,6 +3,8 @@
 #include "svgpathctrlbase.h"
 #include "svgglyph.h"
 
+#include <wx/bitmap.h>
+
 class wxGraphicsContext;
 
 class SVGPATHAPI SvgGlyphCtrl: public SvgPathCtrlBase
@@ -45,8 +47,17 @@ public:
 	void SetPadding(int padding);
 	int GetPadding() const;
 
+	// TODO: SetGlyph/GetGlyph methods
+
+	void SetColor(const wxColor &color) override;
+
+private:
+	void CreateBitmap() const;
+
 private:
 	SvgGlyph svgGlyph;
+	mutable wxBitmap glyphBitmap;
+
 	int fontSize = 14;
 	int padding = 1;
 };
