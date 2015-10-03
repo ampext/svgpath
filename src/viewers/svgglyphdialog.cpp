@@ -31,11 +31,12 @@ SvgGlyphDialog::SvgGlyphDialog(wxWindow *parent): wxDialog(parent, wxID_ANY, wxE
 	}
 
 	fontSizes = { 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36 };
+	fontSizeIndex = 1;
 
 	for (int size: fontSizes)
 		sizeChoice->Append(wxString::Format("%d", size));
 
-	sizeChoice->SetSelection(1);
+	sizeChoice->SetSelection(fontSizeIndex);
 
 	glyphGrid->HideColLabels();
 	glyphGrid->HideRowLabels();
@@ -113,7 +114,9 @@ SvgGlyphDialog::SvgGlyphDialog(wxWindow *parent): wxDialog(parent, wxID_ANY, wxE
 	{
 		if (!cellRenderer) return;
 
-		int fontSize = fontSizes.at(sizeChoice->GetCurrentSelection());
+		fontSizeIndex = sizeChoice->GetCurrentSelection();
+
+		int fontSize = fontSizes.at(fontSizeIndex);
 		cellRenderer->SetFontSize(fontSize);
 		glyphGrid->AutoSize();
 		Layout();
@@ -142,7 +145,7 @@ void SvgGlyphDialog::OnLoadFont(const wxString &path)
 		int rows = std::round(static_cast<float>(glyphCount) / cols + 0.5f);
 
 		glyphGrid->CreateGrid(rows, cols, wxGrid:: wxGridSelectCells);
-        glyphGrid->SetDefaultRenderer(cellRenderer = new GlyphCellRenderer(svgFont.GetGlyphs(), 14));
+        glyphGrid->SetDefaultRenderer(cellRenderer = new GlyphCellRenderer(svgFont.GetGlyphs(), fontSizes.at(fontSizeIndex)));
 
 		int col = 0;
 		int row = 0;

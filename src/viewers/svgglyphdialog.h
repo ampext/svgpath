@@ -25,4 +25,5 @@ private:
 
 	SvgFont svgFont;
 	std::vector<int> fontSizes;
+	size_t fontSizeIndex;
 };
