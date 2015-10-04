@@ -6,6 +6,8 @@
 #include <sstream>
 #include <iostream>
 #include <stdexcept>
+#include <limits>
+#include <tuple>
 
 namespace SvgUtils
 {
@@ -296,6 +298,31 @@ namespace SvgUtils
 			element == SvgPath::PathElement::CurveToQuadraticRel ||
 			element == SvgPath::PathElement::CurveToQuadraticSmooth ||
 			element == SvgPath::PathElement::CurveToQuadraticSmoothRel;
+    }
+
+    inline std::tuple<double, double, double, double> getCurveBoundingRect(double x0, double y0, double x1, double y1, double x2, double y2, double x3, double y3)
+    {
+    	double xMin = std::numeric_limits<double>::max();
+    	double xMax = std::numeric_limits<double>::lowest();
+    	double yMin = std::numeric_limits<double>::max();
+    	double yMax = std::numeric_limits<double>::lowest();
+
+    	const size_t n = 100;
+
+    	for (size_t i = 0; i < n + 1; i++)
+    	{
+    		double t = 1.0 / n * i;
+
+    		double x = (1 - t) * (1 - t) * (1 - t) * x0 + 3 * t * (1 - t) * (1 - t) * x1 + 3 * t * t * (1 - t) * x2 + t * t * t * x3;
+    		double y = (1 - t) * (1 - t) * (1 - t) * y0 + 3 * t * (1 - t) * (1 - t) * y1 + 3 * t * t * (1 - t) * y2 + t * t * t * y3;
+
+    		xMin = std::min(xMin, x);
+    		xMax = std::max(xMax, x);
+    		yMin = std::min(yMin, y);
+    		yMax = std::max(yMax, y);
+    	}
+
+    	return std::make_tuple(xMin, yMin, xMax - xMin, yMax - yMin);
     }
 }
  
