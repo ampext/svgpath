@@ -1,5 +1,7 @@
 #pragma once
 
+#include "defs.h"
+
 class SVGPATHAPI GraphicsContext
 {
 public:
