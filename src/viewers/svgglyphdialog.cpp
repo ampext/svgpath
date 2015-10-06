@@ -14,8 +14,8 @@
 SvgGlyphDialog::SvgGlyphDialog(wxWindow *parent): wxDialog(parent, wxID_ANY, wxEmptyString,
 	wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER)
 {
-    wxButton *fnButton;
-    wxChoice *sizeChoice;
+	wxButton *fnButton;
+	wxChoice *sizeChoice;
 
 	wxBoxSizer *sizer = new wxBoxSizer(wxVERTICAL);
 	{
@@ -43,36 +43,36 @@ SvgGlyphDialog::SvgGlyphDialog(wxWindow *parent): wxDialog(parent, wxID_ANY, wxE
 	glyphGrid->EnableGridLines(false);
 	glyphGrid->SetColMinimalAcceptableWidth(30);
 	glyphGrid->SetRowMinimalAcceptableHeight(30);
-    glyphGrid->DisableCellEditControl();
-    glyphGrid->SetCellHighlightPenWidth(0);
-    glyphGrid->SetCellHighlightROPenWidth(0);
-    glyphGrid->DisableDragGridSize();
+	glyphGrid->DisableCellEditControl();
+	glyphGrid->SetCellHighlightPenWidth(0);
+	glyphGrid->SetCellHighlightROPenWidth(0);
+	glyphGrid->DisableDragGridSize();
 
-    glyphGrid->GetGridWindow()->Bind(wxEVT_MOTION, [this] (wxMouseEvent &event)
-    {
-    	if (cellRenderer)
-    	{
-    		wxCoord x, y;
+	glyphGrid->GetGridWindow()->Bind(wxEVT_MOTION, [this] (wxMouseEvent &event)
+	{
+		if (cellRenderer)
+		{
+			wxCoord x, y;
 			glyphGrid->CalcUnscrolledPosition(event.GetX(), event.GetY(), &x, &y);
 
-    		wxGridCellCoords oldCoords = cellRenderer->GetHighlightCell();
-    		wxGridCellCoords newCoords = glyphGrid->XYToCell(x, y);
+			wxGridCellCoords oldCoords = cellRenderer->GetHighlightCell();
+			wxGridCellCoords newCoords = glyphGrid->XYToCell(x, y);
 
-    		if (oldCoords != newCoords)
-    		{
-    			cellRenderer->SetHighlightCell(newCoords);
+			if (oldCoords != newCoords)
+			{
+				cellRenderer->SetHighlightCell(newCoords);
 
-    			RefreshCell(oldCoords);
-    			RefreshCell(newCoords);
-    		}
-    	}
-    });
+				RefreshCell(oldCoords);
+				RefreshCell(newCoords);
+			}
+		}
+	});
 
-    glyphGrid->GetGridWindow()->Bind(wxEVT_LEFT_DCLICK, [this] (wxMouseEvent &event)
-    {
-        if (cellRenderer)
-    	{
-    		wxCoord x, y;
+	glyphGrid->GetGridWindow()->Bind(wxEVT_LEFT_DCLICK, [this] (wxMouseEvent &event)
+	{
+		if (cellRenderer)
+		{
+			wxCoord x, y;
 			glyphGrid->CalcUnscrolledPosition(event.GetX(), event.GetY(), &x, &y);
 			wxGridCellCoords coords = glyphGrid->XYToCell(x, y);
 
@@ -85,18 +85,18 @@ SvgGlyphDialog::SvgGlyphDialog(wxWindow *parent): wxDialog(parent, wxID_ANY, wxE
 				dlg.ShowModal();
 			}
 		}
-    });
+	});
 
-    glyphGrid->GetGridWindow()->Bind(wxEVT_LEAVE_WINDOW, [this] (wxMouseEvent &event)
-    {
-    	if (cellRenderer)
-    	{
-	    	wxGridCellCoords oldCoords = cellRenderer->GetHighlightCell();
+	glyphGrid->GetGridWindow()->Bind(wxEVT_LEAVE_WINDOW, [this] (wxMouseEvent &event)
+	{
+		if (cellRenderer)
+		{
+			wxGridCellCoords oldCoords = cellRenderer->GetHighlightCell();
 
-	    	cellRenderer->SetHighlightCell(wxGridCellCoords());
-	    	RefreshCell(oldCoords);
-    	}
-    });
+			cellRenderer->SetHighlightCell(wxGridCellCoords());
+			RefreshCell(oldCoords);
+		}
+	});
 
 	fnCtrl->Disable();
 
@@ -104,13 +104,13 @@ SvgGlyphDialog::SvgGlyphDialog(wxWindow *parent): wxDialog(parent, wxID_ANY, wxE
 	{
 		wxFileDialog fileDialog(this, L"Open SVG file", L"", L"", L"SVG files (*.svg)|*.svg", wxFD_OPEN | wxFD_FILE_MUST_EXIST);
 
-	    if (fileDialog.ShowModal() == wxID_CANCEL)
-	        return;
+		if (fileDialog.ShowModal() == wxID_CANCEL)
+			return;
 
-	    this->OnLoadFont(fileDialog.GetPath());
+		this->OnLoadFont(fileDialog.GetPath());
 	});
 
-    sizeChoice->Bind(wxEVT_CHOICE, [this, sizeChoice] (wxCommandEvent&)
+	sizeChoice->Bind(wxEVT_CHOICE, [this, sizeChoice] (wxCommandEvent&)
 	{
 		if (!cellRenderer) return;
 
@@ -124,7 +124,7 @@ SvgGlyphDialog::SvgGlyphDialog(wxWindow *parent): wxDialog(parent, wxID_ANY, wxE
 
 	SetSizer(sizer);
 	SetSize(400, 400);
-    SetLabel(L"SVG Glyph Viewer");
+	SetLabel(L"SVG Glyph Viewer");
 }
 
 void SvgGlyphDialog::OnLoadFont(const wxString &path)
@@ -145,7 +145,7 @@ void SvgGlyphDialog::OnLoadFont(const wxString &path)
 		int rows = std::round(static_cast<float>(glyphCount) / cols + 0.5f);
 
 		glyphGrid->CreateGrid(rows, cols, wxGrid:: wxGridSelectCells);
-        glyphGrid->SetDefaultRenderer(cellRenderer = new GlyphCellRenderer(svgFont.GetGlyphs(), fontSizes.at(fontSizeIndex)));
+		glyphGrid->SetDefaultRenderer(cellRenderer = new GlyphCellRenderer(svgFont.GetGlyphs(), fontSizes.at(fontSizeIndex)));
 
 		int col = 0;
 		int row = 0;
@@ -161,7 +161,7 @@ void SvgGlyphDialog::OnLoadFont(const wxString &path)
 			}
 
 			glyphGrid->SetReadOnly(row, col, true);
-            glyphGrid->SetCellValue(row, col++, glyph.first);
+			glyphGrid->SetCellValue(row, col++, glyph.first);
 		}
 
 		glyphGrid->AutoSize();

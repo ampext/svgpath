@@ -23,10 +23,10 @@ void SvgPath::setPath(const std::string &str)
 
 	pathString = str;
 
-    auto it = str.begin();
+	auto it = str.begin();
 
-    try
-    {
+	try
+	{
 		SvgUtils::readSvgPath(it, str.end(), std::back_inserter(data.commands), std::back_inserter(data.coords));
 	}
 	catch (std::exception &e)
@@ -43,12 +43,12 @@ const std::string &SvgPath::getPath() const
 
 const SvgPath::PathData &SvgPath::getPathData() const
 {
-    return data;
+	return data;
 }
 
 bool SvgPath::isOk() const
 {
-    return ok;
+	return ok;
 }
 
 std::string SvgPath::getLastError() const

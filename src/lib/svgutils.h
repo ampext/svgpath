@@ -179,41 +179,41 @@ namespace SvgUtils
 		}
 		else if (*it == 'H' || *it == 'h' || *it == 'V' || *it == 'v')
 		{
-        	if(*it == 'H') command = SvgPath::PathElement::LineToHorizontal;
-        	else if(*it == 'h') command = SvgPath::PathElement::LineToHorizontalRel;
-        	else if(*it == 'V') command = SvgPath::PathElement::LineToVertical;
-        	else if(*it == 'v') command = SvgPath::PathElement::LineToVerticalRel;
+			if(*it == 'H') command = SvgPath::PathElement::LineToHorizontal;
+			else if(*it == 'h') command = SvgPath::PathElement::LineToHorizontalRel;
+			else if(*it == 'V') command = SvgPath::PathElement::LineToVertical;
+			else if(*it == 'v') command = SvgPath::PathElement::LineToVerticalRel;
 
-        	it++;
+			it++;
 
 			do
 			{
-        		*commandIt++ = command;
+				*commandIt++ = command;
 				*coordIt++ = readNumber(it, last);
 			}
 			while (skipToNextNumber(it, last));
 		}
 		else if (*it == 'Z' || *it == 'z')
-        {
+		{
 			*it++;
 			*commandIt++ = SvgPath::PathElement::ClosePath;
-        }
-        else if (*it == 'C' || *it == 'c' || *it == 'S' || *it == 's' ||
-        	*it == 'Q' || *it == 'q' || *it == 'T' || *it == 't')
-        {
-        	if(*it == 'C') command = SvgPath::PathElement::CurveToCubic;
-        	else if(*it == 'c') command = SvgPath::PathElement::CurveToCubicRel;
-        	else if(*it == 'S') command = SvgPath::PathElement::CurveToCubicSmooth;
-        	else if(*it == 's') command = SvgPath::PathElement::CurveToCubicSmoothRel;
-        	else if(*it == 'Q') command = SvgPath::PathElement::CurveToQuadratic;
-        	else if(*it == 'q') command = SvgPath::PathElement::CurveToQuadraticRel;
-        	else if(*it == 'T') command = SvgPath::PathElement::CurveToQuadraticSmooth;
-        	else if(*it == 't') command = SvgPath::PathElement::CurveToQuadraticSmoothRel;
+		}
+		else if (*it == 'C' || *it == 'c' || *it == 'S' || *it == 's' ||
+			*it == 'Q' || *it == 'q' || *it == 'T' || *it == 't')
+		{
+			if(*it == 'C') command = SvgPath::PathElement::CurveToCubic;
+			else if(*it == 'c') command = SvgPath::PathElement::CurveToCubicRel;
+			else if(*it == 'S') command = SvgPath::PathElement::CurveToCubicSmooth;
+			else if(*it == 's') command = SvgPath::PathElement::CurveToCubicSmoothRel;
+			else if(*it == 'Q') command = SvgPath::PathElement::CurveToQuadratic;
+			else if(*it == 'q') command = SvgPath::PathElement::CurveToQuadraticRel;
+			else if(*it == 'T') command = SvgPath::PathElement::CurveToQuadraticSmooth;
+			else if(*it == 't') command = SvgPath::PathElement::CurveToQuadraticSmoothRel;
 
-        	it++;
+			it++;
 
-        	do
-        	{
+			do
+			{
 				xy = readCoordinatePair(it, last);
 
 				*commandIt++ = command;
@@ -239,90 +239,90 @@ namespace SvgUtils
 						*coordIt++ = xy.second;
 					}
 				}
-        	}
-        	while (skipToNextNumber(it, last));
-        }
-        else throw std::runtime_error(std::string("unexpected command \"") + *it + "\"");
+			}
+			while (skipToNextNumber(it, last));
+		}
+		else throw std::runtime_error(std::string("unexpected command \"") + *it + "\"");
 
 	}
 	
-    template<class InputIt, class OutCmdIt, class OutCoordIt>
-    void readSvgPath(InputIt &it, InputIt last, OutCmdIt commandIt, OutCoordIt coordIt)
-    {
-    	InputIt originIt = it;
+	template<class InputIt, class OutCmdIt, class OutCoordIt>
+	void readSvgPath(InputIt &it, InputIt last, OutCmdIt commandIt, OutCoordIt coordIt)
+	{
+		InputIt originIt = it;
 
-        while (it != last)
-        {
-            skipWhitespace(it, last);
+		while (it != last)
+		{
+			skipWhitespace(it, last);
 
-            if (it == last)
-            	break;
+			if (it == last)
+				break;
 
-            try
-            {
-            	readSvgCommand(it, last, commandIt, coordIt);
-            }
-            catch (std::runtime_error &e)
-            {
-            	std::ostringstream msg;
-            	msg << "failure to read svg path at " << std::distance(originIt, it) << ": " << e.what();
+			try
+			{
+				readSvgCommand(it, last, commandIt, coordIt);
+			}
+			catch (std::runtime_error &e)
+			{
+				std::ostringstream msg;
+				msg << "failure to read svg path at " << std::distance(originIt, it) << ": " << e.what();
 
-            	throw std::runtime_error(msg.str());
-            }
-        }
-    }
+				throw std::runtime_error(msg.str());
+			}
+		}
+	}
 
-    inline bool isCommandRelative(SvgPath::PathElement element)
-    {
-    	return	element == SvgPath::PathElement::MoveToRel ||
-	        element == SvgPath::PathElement::LineToRel ||
-	        element == SvgPath::PathElement::LineToHorizontalRel ||
-	        element == SvgPath::PathElement::LineToVerticalRel ||
-	        element == SvgPath::PathElement::CurveToCubicRel ||
-	        element == SvgPath::PathElement::CurveToCubicSmoothRel ||
-	        element == SvgPath::PathElement::CurveToQuadraticRel ||
-	        element == SvgPath::PathElement::CurveToQuadraticSmoothRel;
-    }
+	inline bool isCommandRelative(SvgPath::PathElement element)
+	{
+		return	element == SvgPath::PathElement::MoveToRel ||
+			element == SvgPath::PathElement::LineToRel ||
+			element == SvgPath::PathElement::LineToHorizontalRel ||
+			element == SvgPath::PathElement::LineToVerticalRel ||
+			element == SvgPath::PathElement::CurveToCubicRel ||
+			element == SvgPath::PathElement::CurveToCubicSmoothRel ||
+			element == SvgPath::PathElement::CurveToQuadraticRel ||
+			element == SvgPath::PathElement::CurveToQuadraticSmoothRel;
+	}
 
-    inline bool isCurveToCubic(SvgPath::PathElement element)
-    {
+	inline bool isCurveToCubic(SvgPath::PathElement element)
+	{
 		return element == SvgPath::PathElement::CurveToCubic ||
 			element == SvgPath::PathElement::CurveToCubicRel ||
 			element == SvgPath::PathElement::CurveToCubicSmooth ||
 			element == SvgPath::PathElement::CurveToCubicSmoothRel;
-    }
+	}
 
-    inline bool isCurveToQuadratic(SvgPath::PathElement element)
-    {
+	inline bool isCurveToQuadratic(SvgPath::PathElement element)
+	{
 		return element == SvgPath::PathElement::CurveToQuadratic ||
 			element == SvgPath::PathElement::CurveToQuadraticRel ||
 			element == SvgPath::PathElement::CurveToQuadraticSmooth ||
 			element == SvgPath::PathElement::CurveToQuadraticSmoothRel;
-    }
+	}
 
-    inline std::tuple<double, double, double, double> getCurveBoundingRect(double x0, double y0, double x1, double y1, double x2, double y2, double x3, double y3)
-    {
-    	double xMin = std::numeric_limits<double>::max();
-    	double xMax = std::numeric_limits<double>::lowest();
-    	double yMin = std::numeric_limits<double>::max();
-    	double yMax = std::numeric_limits<double>::lowest();
+	inline std::tuple<double, double, double, double> getCurveBoundingRect(double x0, double y0, double x1, double y1, double x2, double y2, double x3, double y3)
+	{
+		double xMin = std::numeric_limits<double>::max();
+		double xMax = std::numeric_limits<double>::lowest();
+		double yMin = std::numeric_limits<double>::max();
+		double yMax = std::numeric_limits<double>::lowest();
 
-    	const size_t n = 100;
+		const size_t n = 100;
 
-    	for (size_t i = 0; i < n + 1; i++)
-    	{
-    		double t = 1.0 / n * i;
+		for (size_t i = 0; i < n + 1; i++)
+		{
+			double t = 1.0 / n * i;
 
-    		double x = (1 - t) * (1 - t) * (1 - t) * x0 + 3 * t * (1 - t) * (1 - t) * x1 + 3 * t * t * (1 - t) * x2 + t * t * t * x3;
-    		double y = (1 - t) * (1 - t) * (1 - t) * y0 + 3 * t * (1 - t) * (1 - t) * y1 + 3 * t * t * (1 - t) * y2 + t * t * t * y3;
+			double x = (1 - t) * (1 - t) * (1 - t) * x0 + 3 * t * (1 - t) * (1 - t) * x1 + 3 * t * t * (1 - t) * x2 + t * t * t * x3;
+			double y = (1 - t) * (1 - t) * (1 - t) * y0 + 3 * t * (1 - t) * (1 - t) * y1 + 3 * t * t * (1 - t) * y2 + t * t * t * y3;
 
-    		xMin = std::min(xMin, x);
-    		xMax = std::max(xMax, x);
-    		yMin = std::min(yMin, y);
-    		yMax = std::max(yMax, y);
-    	}
+			xMin = std::min(xMin, x);
+			xMax = std::max(xMax, x);
+			yMin = std::min(yMin, y);
+			yMax = std::max(yMax, y);
+		}
 
-    	return std::make_tuple(xMin, yMin, xMax - xMin, yMax - yMin);
-    }
+		return std::make_tuple(xMin, yMin, xMax - xMin, yMax - yMin);
+	}
 }
  

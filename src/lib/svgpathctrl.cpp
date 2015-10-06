@@ -8,7 +8,7 @@
 
 bool SvgPathCtrl::Create(wxWindow *parent, wxWindowID id, const wxString &path, const wxPoint &pos, const wxSize &size, const wxString &name)
 {
-    if (!SvgPathCtrlBase::Create(parent, id, path, pos, size, name))
+	if (!SvgPathCtrlBase::Create(parent, id, path, pos, size, name))
 		return false;
 
 	return true;
@@ -86,7 +86,7 @@ void SvgPathCtrl::OnPaint(wxPaintEvent& event)
 
 	DrawBackground(dc);
 
-    std::unique_ptr<wxGraphicsContext> gc(wxGraphicsContext::Create(dc));
+	std::unique_ptr<wxGraphicsContext> gc(wxGraphicsContext::Create(dc));
 
 	wxRect rect = GetClientRect();
 	rect.Deflate(padding, padding);
@@ -97,38 +97,38 @@ void SvgPathCtrl::OnPaint(wxPaintEvent& event)
 	svgPath.render(&pathContext);
 
 	double x, y, width, height;
-    pathContext.getBoundingRect(x, y, width, height);
+	pathContext.getBoundingRect(x, y, width, height);
 
-    double scale = 1.0;
+	double scale = 1.0;
 
-    if (fit)
-    {
-	    double clientRatio = static_cast<double>(rect.GetWidth()) / rect.GetHeight();
-	    double pathRatio = width / height;
+	if (fit)
+	{
+		double clientRatio = static_cast<double>(rect.GetWidth()) / rect.GetHeight();
+		double pathRatio = width / height;
 
-	    if (clientRatio < pathRatio) scale = rect.GetWidth() / width;
-	    else scale = rect.GetHeight() / height;
-    }
+		if (clientRatio < pathRatio) scale = rect.GetWidth() / width;
+		else scale = rect.GetHeight() / height;
+	}
 
-    if (mirror)
-    {
+	if (mirror)
+	{
 		gc->Translate(padding, padding + rect.GetHeight());
 		gc->Scale(1.0, -1.0);
-    }
+	}
 
-    gc->Scale(scale, scale);
-    gc->Translate(-x, -y);
+	gc->Scale(scale, scale);
+	gc->Translate(-x, -y);
 
-    if (stroke)
-    {
+	if (stroke)
+	{
 		gc->SetPen(wxPen(color, 1));
 		pathContext.stroke();
-    }
-    else
-    {
-    	gc->SetBrush(wxBrush(color));
-    	pathContext.fill();
-    }
+	}
+	else
+	{
+		gc->SetBrush(wxBrush(color));
+		pathContext.fill();
+	}
 
 }
 

@@ -9,19 +9,19 @@ DECLARE_DYNAMIC_CLASS(SvgPathCtrl)
 public:
 	SvgPathCtrl() {}
 
-    SvgPathCtrl(wxWindow *parent,
+	SvgPathCtrl(wxWindow *parent,
 				wxWindowID id = wxID_ANY,
 				const wxString &path = wxEmptyString,
 				const wxPoint &pos = wxDefaultPosition,
 				const wxSize &size = wxDefaultSize,
 				const wxString &name = "SvgPathCtrl")
-    {
-        Create(parent, id, path, pos, size, name);
-    }
+	{
+		Create(parent, id, path, pos, size, name);
+	}
 
-    ~SvgPathCtrl() override {}
+	~SvgPathCtrl() override {}
 
-    bool Create(wxWindow *parent,
+	bool Create(wxWindow *parent,
 				wxWindowID id = wxID_ANY,
 				const wxString &path = wxEmptyString,
 				const wxPoint &pos = wxDefaultPosition,

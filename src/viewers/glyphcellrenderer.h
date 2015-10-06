@@ -10,7 +10,7 @@
 class GlyphCellRenderer: public wxGridCellRenderer
 {
 public:
-    GlyphCellRenderer(const std::map<wxString, SvgGlyph> &glyphs, int fontSize);
+	GlyphCellRenderer(const std::map<wxString, SvgGlyph> &glyphs, int fontSize);
 
 	wxGridCellRenderer *Clone() const override;
 

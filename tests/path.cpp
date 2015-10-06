@@ -37,24 +37,24 @@ TEST_CASE("svg path")
 		MeasureContext context;
 
 		SvgPath svgPath(path0);
-    	svgPath.render(&context);
+		svgPath.render(&context);
 
-    	context.getBoundingRect(x, y, w, h);
+	context.getBoundingRect(x, y, w, h);
 
-    	CHECK(x == Approx(10).epsilon(0.01));
-    	CHECK(y == Approx(10).epsilon(0.01));
-    	CHECK(w == Approx(300).epsilon(0.01));
-    	CHECK(h == Approx(250).epsilon(0.01));
+		CHECK(x == Approx(10).epsilon(0.01));
+		CHECK(y == Approx(10).epsilon(0.01));
+		CHECK(w == Approx(300).epsilon(0.01));
+		CHECK(h == Approx(250).epsilon(0.01));
 
-    	svgPath = SvgPath(path1);
-    	context.clear();
+		svgPath = SvgPath(path1);
+		context.clear();
 
-    	svgPath.render(&context);
-    	context.getBoundingRect(x, y, w, h);
+		svgPath.render(&context);
+		context.getBoundingRect(x, y, w, h);
 
-    	CHECK(x == Approx(10).epsilon(0.01));
-    	CHECK(y == Approx(10).epsilon(0.01));
-    	CHECK(w == Approx(50).epsilon(0.01));
-    	CHECK(h == Approx(50).epsilon(0.01));
+		CHECK(x == Approx(10).epsilon(0.01));
+		CHECK(y == Approx(10).epsilon(0.01));
+		CHECK(w == Approx(50).epsilon(0.01));
+		CHECK(h == Approx(50).epsilon(0.01));
 	}
 }

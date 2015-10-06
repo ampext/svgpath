@@ -97,19 +97,19 @@ wxBitmap GetBitmapForGlyph(const SvgGlyph &glyph, int size, const wxColor &color
 	wxImage image(bitmapWidth, bitmapHeight, true);
 	image.InitAlpha();
 
-    std::unique_ptr<wxGraphicsContext> gc(wxGraphicsContext::Create(image));
+	std::unique_ptr<wxGraphicsContext> gc(wxGraphicsContext::Create(image));
 
-    gc->SetCompositionMode(wxCOMPOSITION_SOURCE);
+	gc->SetCompositionMode(wxCOMPOSITION_SOURCE);
 	gc->SetBrush(wxBrush(wxColor(0, 0, 0, 0), wxBRUSHSTYLE_SOLID));
-    gc->DrawRectangle(0, 0, bitmapWidth, bitmapHeight);
-    gc->SetCompositionMode(wxCOMPOSITION_OVER);
+	gc->DrawRectangle(0, 0, bitmapWidth, bitmapHeight);
+	gc->SetCompositionMode(wxCOMPOSITION_OVER);
 
 	gc->SetBrush(wxBrush(color));
 
 	wxContext pathContext(gc.get());
 
-    gc->PushState();
-    gc->Translate(0, bitmapHeight + y);
+	gc->PushState();
+	gc->Translate(0, bitmapHeight + y);
 	gc->Scale(scale, -scale);
 
 	path.render(&pathContext);

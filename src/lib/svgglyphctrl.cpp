@@ -7,7 +7,7 @@
 
 bool SvgGlyphCtrl::Create(wxWindow *parent, wxWindowID id, const SvgGlyph &glyph, const wxPoint &pos, const wxSize &size, const wxString &name)
 {
-    if (!SvgPathCtrlBase::Create(parent, id, glyph.data, pos, size, name))
+	if (!SvgPathCtrlBase::Create(parent, id, glyph.data, pos, size, name))
 		return false;
 
 	svgGlyph = glyph;

@@ -4,7 +4,7 @@
 
 bool SvgPathCtrlBase::Create(wxWindow *parent, wxWindowID id, const wxString &path, const wxPoint &pos, const wxSize &size, const wxString &name)
 {
-    if (!wxWindow::Create(parent, id, pos, size, 0, name))
+	if (!wxWindow::Create(parent, id, pos, size, 0, name))
 		return false;
 
 	Bind(wxEVT_PAINT, &SvgPathCtrlBase::OnPaint, this);

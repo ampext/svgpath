@@ -16,8 +16,8 @@ std::vector<std::string> testData01 =
 
 void render(GraphicsContext *g, const std::string path)
 {
-    SvgPath svgPath(path);
-    svgPath.render(g);
+	SvgPath svgPath(path);
+	svgPath.render(g);
 }
 
 void render(GraphicsContext *g, const std::vector<std::string> paths)
@@ -25,9 +25,9 @@ void render(GraphicsContext *g, const std::vector<std::string> paths)
 	for (const std::string &path: paths)
 	{
 		SvgPath svgPath(path);
-        
-        if (svgPath.isOk())
-            svgPath.render(g);
+		
+		if (svgPath.isOk())
+			svgPath.render(g);
 	}
 }
 
@@ -47,8 +47,8 @@ int main()
 	cairo_surface_write_to_png(surface, "cairotest.png");
 	
 	cairo_surface_destroy(surface);
-    cairo_destroy(g);  
+	cairo_destroy(g);  
 	
-    
-    return 0;
+	
+	return 0;
 }

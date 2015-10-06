@@ -30,10 +30,10 @@ inline void readSvgCommand(const std::string &str, std::vector<SvgPath::PathElem
 	}
 	catch (std::exception &e)
 	{
-    	std::ostringstream msg;
-    	msg << "failure to read command at " << std::distance(str.begin(), it) << ": " << e.what();
+		std::ostringstream msg;
+		msg << "failure to read command at " << std::distance(str.begin(), it) << ": " << e.what();
 
-    	throw std::runtime_error(msg.str());
+		throw std::runtime_error(msg.str());
 	}
 }
 
@@ -48,57 +48,57 @@ inline void readSvgPath(const std::string &str, std::vector<SvgPath::PathElement
 
 namespace Catch {
 	namespace Matchers {
-	    namespace Impl {
-	    	namespace DoubleVector
-	    	{
+		namespace Impl {
+			namespace DoubleVector
+			{
 				struct Equals: MatcherImpl<Equals, std::vector<double>>
 				{
-				    Equals(const std::vector<double> &vec): m_vec(vec)
-				    {
+					Equals(const std::vector<double> &vec): m_vec(vec)
+					{
 
-				    }
+					}
 
-				    Equals(const Equals &other): m_vec(other.m_vec)
-				    {
+					Equals(const Equals &other): m_vec(other.m_vec)
+					{
 
-				    }
+					}
 
-			        Equals& epsilon(double epsilon)
-			        {
-			            m_epsilon = epsilon;
-			            return *this;
-			        }
+					Equals& epsilon(double epsilon)
+					{
+						m_epsilon = epsilon;
+						return *this;
+					}
 
-				    virtual bool match(const std::vector<double> &expr) const
-				    {
-				        if (expr.size() == m_vec.size())
-				        {
-				        	for (size_t i = 0; i < m_vec.size(); i++)
-				        		if (expr[i] != Approx(m_vec[i]).epsilon(m_epsilon))
-				        			return false;
+					virtual bool match(const std::vector<double> &expr) const
+					{
+						if (expr.size() == m_vec.size())
+						{
+							for (size_t i = 0; i < m_vec.size(); i++)
+								if (expr[i] != Approx(m_vec[i]).epsilon(m_epsilon))
+									return false;
 
-				        	return true;
-				        } 
+							return true;
+						} 
 
-				        return false;
-				    }
+						return false;
+					}
 
-				    virtual std::string toString() const
-				    {
-				        std::ostringstream stream;
+					virtual std::string toString() const
+					{
+						std::ostringstream stream;
 
-				        stream << "== { ";
+						stream << "== { ";
 
-				        for (size_t i = 0; i < m_vec.size(); i++)
-				        	stream << (i > 0 ? ", " : "") << Catch::toString(m_vec[i]);
+						for (size_t i = 0; i < m_vec.size(); i++)
+							stream << (i > 0 ? ", " : "") << Catch::toString(m_vec[i]);
 
-				        stream << " }";
-				    
-				        return stream.str();
-				    }
+						stream << " }";
+					
+						return stream.str();
+					}
 
-				    double m_epsilon = std::numeric_limits<float>::epsilon() * 100;
-				    std::vector<double> m_vec;
+					double m_epsilon = std::numeric_limits<float>::epsilon() * 100;
+					std::vector<double> m_vec;
 				};
 			}
 		}
@@ -108,9 +108,9 @@ namespace Catch {
 			 return Impl::DoubleVector::Equals(std::vector<double>(l));
 		}
 
-	    inline Impl::DoubleVector::Equals Equals(const std::vector<double>& vec)
-	    {
-	        return Impl::DoubleVector::Equals(vec);
-	    }
+		inline Impl::DoubleVector::Equals Equals(const std::vector<double>& vec)
+		{
+			return Impl::DoubleVector::Equals(vec);
+		}
 	}
 }

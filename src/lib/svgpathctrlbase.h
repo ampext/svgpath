@@ -29,8 +29,8 @@ public:
 	wxSize GetMinClientSize() const override;
 
 protected:
-    wxSize DoGetBestSize() const override;
-    virtual void DrawBackground(wxDC &dc) const;
+	wxSize DoGetBestSize() const override;
+	virtual void DrawBackground(wxDC &dc) const;
 
 protected:
 	SvgPath svgPath;

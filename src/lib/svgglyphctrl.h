@@ -14,19 +14,19 @@ DECLARE_DYNAMIC_CLASS(SvgGlyphCtrl)
 public:
 	SvgGlyphCtrl() {}
 
-    SvgGlyphCtrl(wxWindow *parent,
+	SvgGlyphCtrl(wxWindow *parent,
 				wxWindowID id,
 				const SvgGlyph &glyph,
 				const wxPoint &pos = wxDefaultPosition,
 				const wxSize &size = wxDefaultSize,
 				const wxString &name = "SvgGlyphCtrl")
-    {
-        Create(parent, id, glyph, pos, size, name);
-    }
+	{
+		Create(parent, id, glyph, pos, size, name);
+	}
 
-    ~SvgGlyphCtrl() override {}
+	~SvgGlyphCtrl() override {}
 
-    bool Create(wxWindow *parent,
+	bool Create(wxWindow *parent,
 				wxWindowID id,
 				const SvgGlyph &glyph,
 				const wxPoint &pos = wxDefaultPosition,
