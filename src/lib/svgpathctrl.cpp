@@ -94,7 +94,7 @@ void SvgPathCtrl::OnPaint(wxPaintEvent& event)
 	if (!svgPath.isOk()) return;
 
 	wxContext pathContext(gc.get());
-	svgPath.render(&pathContext);
+	svgPath.draw(&pathContext);
 
 	double x, y, width, height;
 	pathContext.getBoundingRect(x, y, width, height);

@@ -67,7 +67,7 @@ wxBitmap GetBitmapForGlyph(const SvgGlyph &glyph, int size, const wxColor &color
 	{
 		MeasureContext measureContext;
 
-		path.render(&measureContext);
+		path.draw(&measureContext);
 		measureContext.getBoundingRect(x, y, w, h);
 
 		double k = static_cast<double>(size) / glyph.unitsPerEm;
@@ -107,7 +107,7 @@ wxBitmap GetBitmapForGlyph(const SvgGlyph &glyph, int size, const wxColor &color
 	gc->Translate(0, bitmapHeight + y);
 	gc->Scale(scale, -scale);
 
-	path.render(&pathContext);
+	path.draw(&pathContext);
 
 	pathContext.fill();
 	gc->PopState();

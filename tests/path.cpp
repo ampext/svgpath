@@ -37,7 +37,7 @@ TEST_CASE("svg path")
 		MeasureContext context;
 
 		SvgPath svgPath(path0);
-		svgPath.render(&context);
+		svgPath.draw(&context);
 
 	context.getBoundingRect(x, y, w, h);
 
@@ -49,7 +49,7 @@ TEST_CASE("svg path")
 		svgPath = SvgPath(path1);
 		context.clear();
 
-		svgPath.render(&context);
+		svgPath.draw(&context);
 		context.getBoundingRect(x, y, w, h);
 
 		CHECK(x == Approx(10).epsilon(0.01));

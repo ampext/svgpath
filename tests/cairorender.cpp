@@ -14,20 +14,20 @@ std::vector<std::string> testData01 =
 	"M600,800 C625,700 725,700 750,800 S875,900 900,800"
 };
 
-void render(GraphicsContext *g, const std::string path)
+void draw(GraphicsContext *g, const std::string path)
 {
 	SvgPath svgPath(path);
-	svgPath.render(g);
+	svgPath.draw(g);
 }
 
-void render(GraphicsContext *g, const std::vector<std::string> paths)
+void draw(GraphicsContext *g, const std::vector<std::string> paths)
 {
 	for (const std::string &path: paths)
 	{
 		SvgPath svgPath(path);
 		
 		if (svgPath.isOk())
-			svgPath.render(g);
+			svgPath.draw(g);
 	}
 }
 
@@ -39,7 +39,7 @@ int main()
 	cairo_set_source_rgb(g, 0.75, 0.34, 0.0);
 
 	CairoContext graphicsContext(g);
-	render(&graphicsContext,testData01);
+	draw(&graphicsContext,testData01);
 
 	cairo_stroke(g);
 	//cairo_fill(g);
