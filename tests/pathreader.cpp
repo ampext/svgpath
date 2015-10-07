@@ -282,5 +282,14 @@ TEST_CASE("path readers")
 			SvgPath::PathElement::CurveToCubicSmooth
 		}));
 		CHECK_THAT(coords, Equals({ 600, 800, 625, 700, 725, 700, 750, 800, 875, 900, 900, 800 }));
+
+		CHECK_NOTHROW(readSvgPath("m 2.370413,182.53786 c 0,0 -19.503374,-227.849486 53.377647,-109.326876", commands, coords));
+		CHECK(commands == PathElements(
+		{
+			SvgPath::PathElement::MoveToRel,
+			SvgPath::PathElement::CurveToCubicRel
+		}));
+
+		CHECK_THAT(coords, Equals({ 2.370413, 182.53786, 0, 0, -19.503374, -227.849486, 53.377647, -109.326876 }));
 	}
 }

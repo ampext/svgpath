@@ -75,6 +75,7 @@ void SvgPath::draw(GraphicsContext *g) const
 	while (commandIt != data.commands.end())
 	{
 		if (*commandIt == PathElement::MoveTo || 
+			*commandIt == PathElement::MoveToRel ||
 			*commandIt == PathElement::LineTo ||
 			*commandIt == PathElement::LineToRel)
 		{
@@ -132,7 +133,7 @@ void SvgPath::draw(GraphicsContext *g) const
 
 		g->getCurrentPoint(cx, cy);
 
-		if (*commandIt == PathElement::MoveTo)
+		if (*commandIt == PathElement::MoveTo || *commandIt == PathElement::MoveToRel)
 		{
 			g->moveTo(x, y);
 		}
