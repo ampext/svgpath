@@ -1,4 +1,5 @@
 #include "wxcontext.h"
+#include "measurecontext.h"
 #include "svgglyph.h"
 #include "svgpath.h"
 
@@ -64,16 +65,10 @@ wxBitmap GetBitmapForGlyph(const SvgGlyph &glyph, int size, const wxColor &color
 
 	double x, y, w, h;
 	{
-		wxBitmap bitmap(1, 1);
-		wxMemoryDC dc;
-		dc.SelectObject(bitmap);
+		MeasureContext measureContext;
 
-		std::unique_ptr<wxGraphicsContext> gc(wxGraphicsContext::Create(dc));
-
-		wxContext pathContext(gc.get());
-
-		path.render(&pathContext);
-		pathContext.getBoundingRect(x, y, w, h);
+		path.render(&measureContext);
+		measureContext.getBoundingRect(x, y, w, h);
 
 		double k = static_cast<double>(size) / glyph.unitsPerEm;
 
@@ -91,8 +86,8 @@ wxBitmap GetBitmapForGlyph(const SvgGlyph &glyph, int size, const wxColor &color
 
 	double scale = static_cast<double>(glyph.GetWidth(size)) / (glyph.horizAdvX > 0 ? glyph.horizAdvX : glyph.unitsPerEm);
 
-	int bitmapWidth = std::max<int>(std::round(w + 2), glyph.GetWidth(size));
-	int bitmapHeight = std::max<int>(std::round(h + 2), glyph.GetHeight(size));
+	int bitmapWidth = std::max<int>(std::round(w), glyph.GetWidth(size));
+	int bitmapHeight = std::max<int>(std::round(h), glyph.GetHeight(size));
 
 	wxImage image(bitmapWidth, bitmapHeight, true);
 	image.InitAlpha();
