@@ -36,5 +36,5 @@ private:
 	// It is not good to store cache as collection of wxBitmap under Windows because each wxBitmap is GDI object
 	std::map<wxString, wxBitmap> glyphCache;
 
-	static const int padding = 4;
+	int padding = 0;
 };

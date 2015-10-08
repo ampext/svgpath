@@ -7,12 +7,14 @@
 
 #include <memory>
 
-GlyphCellRenderer::GlyphCellRenderer(const std::map<wxString, SvgGlyph> &glyphs, int fontSize): glyphs(glyphs), fontSize(fontSize)
+GlyphCellRenderer::GlyphCellRenderer(const std::map<wxString, SvgGlyph> &glyphs, int fontSize): glyphs(glyphs)
 {
 	labelFont = wxSystemSettings::GetFont(wxSYS_DEFAULT_GUI_FONT);
 	glyphColor = wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT);
 	hlColor = wxSystemSettings::GetColour(wxSYS_COLOUR_BTNFACE);
 	labelColor = glyphColor.ChangeLightness(150);
+
+	SetFontSize(fontSize);
 }
 
 wxGridCellRenderer *GlyphCellRenderer::Clone() const
@@ -36,6 +38,7 @@ void GlyphCellRenderer::SetFontSize(int size)
 	{
 		fontSize = size;
 		glyphCache.clear();
+		padding = std::max(4, size / 4);
 	}
 }
 
