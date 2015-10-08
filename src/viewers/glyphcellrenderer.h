@@ -25,7 +25,8 @@ public:
 
 private:
 	const std::map<wxString, SvgGlyph> &glyphs;
-	int fontSize;
+	int fontSize = 0;
+	int padding = 0;
 
 	wxFont labelFont;
 	wxColor labelColor;
@@ -35,6 +36,4 @@ private:
 	
 	// It is not good to store cache as collection of wxBitmap under Windows because each wxBitmap is GDI object
 	std::map<wxString, wxBitmap> glyphCache;
-
-	int padding = 0;
 };
