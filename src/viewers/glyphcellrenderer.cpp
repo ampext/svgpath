@@ -102,10 +102,13 @@ void GlyphCellRenderer::Draw(wxGrid &grid, wxGridCellAttr &attr, wxDC &dc, const
 
 	const wxBitmap &glyphBitmap = findIt->second;
 
-	gc->DrawBitmap(glyphBitmap,
-		newRect.x + (newRect.width - glyphBitmap.GetWidth()) / 2,
-		newRect.y + (newRect.height - glyphBitmap.GetHeight()) / 2,
-		glyphBitmap.GetWidth(), glyphBitmap.GetHeight());
+	if (glyphBitmap.IsOk())
+	{
+		gc->DrawBitmap(glyphBitmap,
+			newRect.x + (newRect.width - glyphBitmap.GetWidth()) / 2,
+			newRect.y + (newRect.height - glyphBitmap.GetHeight()) / 2,
+			glyphBitmap.GetWidth(), glyphBitmap.GetHeight());
+	}
 
 	double width, height, descent, externalLeading;
 
