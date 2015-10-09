@@ -26,6 +26,9 @@ private:
 	double x;
 	double y;
 
+	double startX;
+	double startY;
+
 	double xMin;
 	double xMax;
 	double yMin;

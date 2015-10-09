@@ -1,6 +1,8 @@
 #include "measurecontext.h"
 #include "svgutils.h"
 
+#include <cmath>
+
 MeasureContext::MeasureContext()
 {
 	clear();
@@ -10,6 +12,9 @@ void MeasureContext::clear()
 {
 	x = 0;
 	y = 0;
+
+	startX = std::numeric_limits<double>::quiet_NaN();
+	startY = std::numeric_limits<double>::quiet_NaN();
 
 	xMin = std::numeric_limits<double>::max();
 	xMax = std::numeric_limits<double>::lowest();
@@ -29,6 +34,9 @@ void MeasureContext::moveTo(double x, double y)
 {
 	this->x = x;
 	this->y = y;
+
+	if (std::isnan(startX)) startX = x;
+	if (std::isnan(startY)) startY = y;
 
 	updateMinMax(x, y);
 }
@@ -52,8 +60,7 @@ void MeasureContext::curveTo(double x1, double y1, double x2, double y2, double 
 
 void MeasureContext::closePath()
 {
-	x = 0;
-	y = 0;
+	lineTo(startX, startY);
 }
 
 void MeasureContext::getCurrentPoint(double &x, double &y)
