@@ -20,6 +20,7 @@ TEST_CASE("path readers")
 		CHECK(readNumber("1.23 \t\n") == Approx(1.23));
 		CHECK(readNumber("1.23 abc") == Approx(1.23));
 		CHECK(readNumber("1.23abc") == Approx(1.23));
+		CHECK_NOTHROW(readNumber("1.23-4.5") == Approx(1.23));
 		
 		CHECK_THROWS(readNumber("abc"));
 		CHECK_THROWS(readNumber(""));
@@ -49,6 +50,10 @@ TEST_CASE("path readers")
 		CHECK_NOTHROW(std::tie(x, y) = readCoordinate(" \t\n123, \t\n456"));
 		CHECK(x == Approx(123));
 		CHECK(y == Approx(456));
+
+		CHECK_NOTHROW(std::tie(x, y) = readCoordinate("1-2"));
+		CHECK(x == Approx(1));
+		CHECK(y == Approx(-2));
 		
 		CHECK_THROWS(readCoordinate("123"));
 		CHECK_THROWS(readCoordinate("123,"));
@@ -291,5 +296,20 @@ TEST_CASE("path readers")
 		}));
 
 		CHECK_THAT(coords, Equals({ 2.370413, 182.53786, 0, 0, -19.503374, -227.849486, 53.377647, -109.326876 }));
+
+		CHECK_NOTHROW(readSvgPath("M1 2V3H4v-5H6l7-8 9 10H11z", commands, coords));
+		CHECK(commands == PathElements(
+		{
+			SvgPath::PathElement::MoveTo,
+			SvgPath::PathElement::LineToVertical,
+			SvgPath::PathElement::LineToHorizontal,
+			SvgPath::PathElement::LineToVerticalRel,
+			SvgPath::PathElement::LineToHorizontal,
+			SvgPath::PathElement::LineToRel,
+			SvgPath::PathElement::LineToRel,
+			SvgPath::PathElement::LineToHorizontal,
+			SvgPath::PathElement::ClosePath
+		}));
+		CHECK_THAT(coords, Equals({ 1, 2, 3, 4, -5, 6, 7, -8, 9, 10, 11}));
 	}
 }

@@ -135,6 +135,12 @@ void SvgPath::draw(GraphicsContext *g) const
 
 		if (*commandIt == PathElement::MoveTo || *commandIt == PathElement::MoveToRel)
 		{
+			if (SvgUtils::isCommandRelative(*commandIt))
+			{
+				x += cx;
+				y += cy;
+			}
+			
 			g->moveTo(x, y);
 		}
 		else if (*commandIt == PathElement::LineTo || *commandIt == PathElement::LineToRel)
