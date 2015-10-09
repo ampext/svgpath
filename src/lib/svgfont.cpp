@@ -3,6 +3,12 @@
 #include <cmath>
 #include <wx/xml/xml.h>
 
+SvgFont::SvgFont(const wxString &filename)
+{
+	if (!filename.IsEmpty())
+		LoadFromFile(filename);
+}
+
 bool SvgFont::LoadFromFile(const wxString &filename)
 {
 	Clear();
@@ -124,6 +130,11 @@ bool SvgFont::LoadFromFile(const wxString &filename)
 wxString SvgFont::GetLastError() const
 {
 	return lastError;
+}
+
+bool SvgFont::IsOk() const
+{
+	return GetLastError().IsEmpty();
 }
 
 void SvgFont::Clear() 

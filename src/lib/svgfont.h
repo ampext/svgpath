@@ -8,8 +8,11 @@
 class SVGPATHAPI SvgFont
 {
 public:
+	SvgFont(const wxString &filename = wxEmptyString);
+
 	bool LoadFromFile(const wxString &filename);
 	wxString GetLastError() const;
+	bool IsOk() const;
 
 	void Clear();
 
