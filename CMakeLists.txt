@@ -6,6 +6,7 @@ endif()
 
 option(TESTS "build tests" ON)
 option(VIEWERS "build viewers" ON)
+option(SAMPLES "build samples" ON)
 
 add_definitions(-D_CRT_SECURE_NO_WARNINGS)
 
@@ -28,6 +29,10 @@ add_subdirectory(src/lib)
 
 if(${VIEWERS})
     add_subdirectory(src/viewers)
+endif()
+
+if(${SAMPLES})
+	add_subdirectory(samples)
 endif()
 
 if(${TESTS})
