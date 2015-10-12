@@ -38,6 +38,7 @@ void MeasureContext::moveTo(double x, double y)
 	if (std::isnan(startX)) startX = x;
 	if (std::isnan(startY)) startY = y;
 
+	// TODO: do not update min/max for moveTo?
 	updateMinMax(x, y);
 }
 
@@ -61,6 +62,9 @@ void MeasureContext::curveTo(double x1, double y1, double x2, double y2, double 
 void MeasureContext::closePath()
 {
 	lineTo(startX, startY);
+
+	startX = std::numeric_limits<double>::quiet_NaN();
+	startY = std::numeric_limits<double>::quiet_NaN();
 }
 
 void MeasureContext::getCurrentPoint(double &x, double &y)
