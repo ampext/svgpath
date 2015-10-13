@@ -26,15 +26,19 @@ bool ListViewRenderer::Render(wxRect rect, wxDC *dc, int state)
 
     if (icon.IsOk())
     {
-        dc->DrawIcon(icon, rect.x + iconOffset, rect.y + (rect.height - icon.GetHeight()) / 2);
+    	int yOffset = (rect.GetHeight() - icon.GetHeight()) / 2;
+
+        dc->DrawIcon(icon, rect.x + iconOffset, rect.y + yOffset);
         xOffset = iconOffset + icon.GetWidth() + iconRightMargin;
     }
 
     wxFont font = dc->GetFont();
 	font.SetWeight(icon.IsOk() ? wxFONTWEIGHT_NORMAL : wxFONTWEIGHT_BOLD);
 
+	int yOffset = (rect.GetHeight() - dc->GetCharHeight()) / 2;
+
 	dc->SetFont(font);
-	dc->DrawText(value.GetText(), xOffset, rect.y);
+	dc->DrawText(value.GetText(), xOffset, rect.y + yOffset);
 
 	return true;
 }
