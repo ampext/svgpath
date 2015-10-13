@@ -29,4 +29,5 @@ If you have a custom wxWidgets build pass `-DwxWidgets_CONFIG_EXECUTABLE=<path t
 `-DTESTS=1/0` for enable or disable tests from build. Execute `wget -P tests https://raw.githubusercontent.com/philsquared/Catch/master/single_include/catch.hpp` in source root directory for fetching dependency
 
 `-DVIEWERS=1/0` for enable or disable viewers from build
+
 `-DSAMPLES=1/0` for enable or disable samples from build
