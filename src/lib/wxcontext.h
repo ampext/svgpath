@@ -28,4 +28,4 @@ private:
 	wxGraphicsPath path;
 };
 
-SVGPATHAPI wxBitmap GetBitmapForGlyph(const SvgGlyph &glyph, int size, const wxColor &color = *wxBLACK);
+SVGPATHAPI wxBitmap GetBitmapForGlyph(const SvgGlyph &glyph, int size, const wxColor &color = *wxBLACK, bool exactFit = true);

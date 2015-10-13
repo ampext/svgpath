@@ -5,12 +5,15 @@
 
 #include <memory>
 
-bool SvgGlyphCtrl::Create(wxWindow *parent, wxWindowID id, const SvgGlyph &glyph, const wxPoint &pos, const wxSize &size, const wxString &name)
+bool SvgGlyphCtrl::Create(wxWindow *parent, wxWindowID id, const SvgGlyph &glyph, int fontSize, int alignment, const wxPoint &pos, const wxSize &size, const wxString &name)
 {
 	if (!SvgPathCtrlBase::Create(parent, id, glyph.data, pos, size, name))
 		return false;
 
 	svgGlyph = glyph;
+
+	this->alignment = alignment;
+	this->fontSize = fontSize;
 
 	return true;
 }
@@ -37,6 +40,16 @@ void SvgGlyphCtrl::SetPadding(int padding)
 int SvgGlyphCtrl::GetPadding() const
 {
 	return padding;
+}
+
+void SvgGlyphCtrl::SetAlignment(int alignment)
+{
+	this->alignment = alignment;
+}
+
+int SvgGlyphCtrl::GetAlignment() const
+{
+	return alignment;
 }
 
 void SvgGlyphCtrl::SetColor(const wxColor &color)
@@ -94,7 +107,18 @@ void SvgGlyphCtrl::OnPaint(wxPaintEvent& event)
 			return;
 	}
 
-	dc.DrawBitmap(glyphBitmap, padding, padding);
+	wxRect rect = GetClientRect();
+
+	int xOffset = padding;
+	int yOffset = padding;
+
+	if (alignment & wxALIGN_TOP) yOffset += (rect.GetHeight() - glyphBitmap.GetHeight());
+	else if (alignment & wxALIGN_CENTER_VERTICAL) yOffset += (rect.GetHeight() - glyphBitmap.GetHeight()) / 2;
+
+	if (alignment & wxALIGN_RIGHT) xOffset += (rect.GetWidth() - glyphBitmap.GetWidth());
+	else if (alignment & wxALIGN_CENTER_HORIZONTAL) xOffset += (rect.GetWidth() - glyphBitmap.GetWidth()) / 2;
+
+	dc.DrawBitmap(glyphBitmap, xOffset, yOffset);
 }
 
 

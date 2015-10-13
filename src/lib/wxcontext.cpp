@@ -53,7 +53,7 @@ void wxContext::fill()
 	g->FillPath(path, wxWINDING_RULE);
 }
 
-wxBitmap GetBitmapForGlyph(const SvgGlyph &glyph, int size, const wxColor &color)
+wxBitmap GetBitmapForGlyph(const SvgGlyph &glyph, int size, const wxColor &color, bool exactFit)
 {
 	if (!glyph.IsOk())
 		return wxNullBitmap;
@@ -86,8 +86,14 @@ wxBitmap GetBitmapForGlyph(const SvgGlyph &glyph, int size, const wxColor &color
 
 	double scale = static_cast<double>(glyph.GetWidth(size)) / (glyph.horizAdvX > 0 ? glyph.horizAdvX : glyph.unitsPerEm);
 
-	int bitmapWidth = std::max<int>(std::round(w), glyph.GetWidth(size));
-	int bitmapHeight = std::max<int>(std::round(h), glyph.GetHeight(size));
+	int bitmapWidth = std::round(w);
+	int bitmapHeight = std::round(h);
+
+	if (!exactFit)
+	{
+		bitmapWidth = std::max<int>(bitmapWidth, glyph.GetWidth(size));
+		bitmapHeight = std::max<int>(bitmapHeight, glyph.GetHeight(size));		
+	}
 
 	wxImage image(bitmapWidth, bitmapHeight, true);
 	image.InitAlpha();
@@ -104,7 +110,7 @@ wxBitmap GetBitmapForGlyph(const SvgGlyph &glyph, int size, const wxColor &color
 	wxContext pathContext(gc.get());
 
 	gc->PushState();
-	gc->Translate(0, bitmapHeight + y);
+	gc->Translate(1, bitmapHeight + y);
 	gc->Scale(scale, -scale);
 
 	path.draw(&pathContext);

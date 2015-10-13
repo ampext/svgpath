@@ -17,11 +17,13 @@ public:
 	SvgGlyphCtrl(wxWindow *parent,
 				wxWindowID id,
 				const SvgGlyph &glyph,
+				int fontSize,
+				int alignment = wxALIGN_CENTER_HORIZONTAL | wxALIGN_BOTTOM,
 				const wxPoint &pos = wxDefaultPosition,
 				const wxSize &size = wxDefaultSize,
 				const wxString &name = "SvgGlyphCtrl")
 	{
-		Create(parent, id, glyph, pos, size, name);
+		Create(parent, id, glyph, fontSize, alignment, pos, size, name);
 	}
 
 	~SvgGlyphCtrl() override {}
@@ -29,6 +31,8 @@ public:
 	bool Create(wxWindow *parent,
 				wxWindowID id,
 				const SvgGlyph &glyph,
+				int fontSize,
+				int alignment,
 				const wxPoint &pos = wxDefaultPosition,
 				const wxSize &size = wxDefaultSize,
 				const wxString &name = "SvgGlyphCtrl");
@@ -47,6 +51,9 @@ public:
 	void SetPadding(int padding);
 	int GetPadding() const;
 
+	void SetAlignment(int alignment);
+	int GetAlignment() const;
+
 	// TODO: SetGlyph/GetGlyph methods
 
 	void SetColor(const wxColor &color) override;
@@ -59,5 +66,6 @@ private:
 	mutable wxBitmap glyphBitmap;
 
 	int fontSize = 14;
-	int padding = 1;
+	int padding = 0;
+	int alignment = wxALIGN_CENTER_HORIZONTAL | wxALIGN_BOTTOM;
 };
