@@ -19,5 +19,5 @@ private:
 	wxWindow *CreatePanel();
 
 	SvgFont font;
-	const int fontSize = 14;
+	const int fontSize = 16;
 };
