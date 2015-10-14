@@ -89,8 +89,6 @@ void GlyphCellRenderer::Draw(wxGrid &grid, wxGridCellAttr &attr, wxDC &dc, const
 		bool result;
 		std::tie(findIt, result) = glyphCache.emplace(glyph.unicode, GetBitmapForGlyph(glyph, fontSize, glyphColor, attr.GetBackgroundColour(), false));
 
-		findIt->second.SaveFile(L"e:\\glyphs\\glyph_" + glyph.unicode + ".bmp", wxBITMAP_TYPE_BMP);
-
 		if (!result) return;
 	}
 
