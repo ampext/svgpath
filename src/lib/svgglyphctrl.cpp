@@ -87,7 +87,7 @@ wxSize SvgGlyphCtrl::GetMinSize() const
 
 void SvgGlyphCtrl::CreateBitmap() const
 {
-	glyphBitmap = GetBitmapForGlyph(svgGlyph, fontSize, color);
+	glyphBitmap = GetBitmapForGlyph(svgGlyph, fontSize, color, GetBackgroundColour());
 }
 
 void SvgGlyphCtrl::OnPaint(wxPaintEvent& event)

@@ -53,7 +53,7 @@ void wxContext::fill()
 	g->FillPath(path, wxWINDING_RULE);
 }
 
-wxBitmap GetBitmapForGlyph(const SvgGlyph &glyph, int size, const wxColor &color, bool exactFit)
+wxBitmap GetBitmapForGlyph(const SvgGlyph &glyph, int size, const wxColor &color, const wxColor &backColor, bool exactFit)
 {
 	if (!glyph.IsOk())
 		return wxNullBitmap;
@@ -101,11 +101,11 @@ wxBitmap GetBitmapForGlyph(const SvgGlyph &glyph, int size, const wxColor &color
 	std::unique_ptr<wxGraphicsContext> gc(wxGraphicsContext::Create(image));
 
 	gc->SetCompositionMode(wxCOMPOSITION_SOURCE);
-	gc->SetBrush(wxBrush(wxColor(0, 0, 0, 0), wxBRUSHSTYLE_SOLID));
+	gc->SetBrush(wxBrush(backColor, wxBRUSHSTYLE_SOLID));
 	gc->DrawRectangle(0, 0, bitmapWidth, bitmapHeight);
 	gc->SetCompositionMode(wxCOMPOSITION_OVER);
 
-	gc->SetBrush(wxBrush(color));
+	gc->SetBrush(wxBrush(wxColor(color)));
 
 	wxContext pathContext(gc.get());
 
