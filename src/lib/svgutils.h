@@ -8,6 +8,7 @@
 #include <stdexcept>
 #include <limits>
 #include <tuple>
+#include <algorithm>
 
 namespace SvgUtils
 {
@@ -317,10 +318,10 @@ namespace SvgUtils
 			double x = (1 - t) * (1 - t) * (1 - t) * x0 + 3 * t * (1 - t) * (1 - t) * x1 + 3 * t * t * (1 - t) * x2 + t * t * t * x3;
 			double y = (1 - t) * (1 - t) * (1 - t) * y0 + 3 * t * (1 - t) * (1 - t) * y1 + 3 * t * t * (1 - t) * y2 + t * t * t * y3;
 
-			xMin = std::min(xMin, x);
-			xMax = std::max(xMax, x);
-			yMin = std::min(yMin, y);
-			yMax = std::max(yMax, y);
+			xMin = std::min<double>(xMin, x);
+			xMax = std::max<double>(xMax, x);
+			yMin = std::min<double>(yMin, y);
+			yMax = std::max<double>(yMax, y);
 		}
 
 		return std::make_tuple(xMin, yMin, xMax - xMin, yMax - yMin);
