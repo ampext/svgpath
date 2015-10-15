@@ -187,6 +187,15 @@ TEST_CASE("path readers")
 		std::vector<SvgPath::PathElement> commands;
 		std::vector<double> coords;
 
+		CHECK_NOTHROW(readSvgCommand("M 10,20 30,40 50,60", commands, coords));
+		CHECK(commands == PathElements(
+		{
+			SvgPath::PathElement::MoveTo,
+			SvgPath::PathElement::MoveTo,
+			SvgPath::PathElement::MoveTo
+		}));
+		CHECK_THAT(coords, Equals({ 10, 20, 30, 40, 50, 60 }));
+
 		CHECK_NOTHROW(readSvgCommand("L 10,20 30,40 50,60", commands, coords));
 		CHECK(commands == PathElements(
 		{

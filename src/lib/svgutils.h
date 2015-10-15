@@ -156,18 +156,14 @@ namespace SvgUtils
 		std::pair<double, double> xy;
 		SvgPath::PathElement command;
 
-		if (*it == 'M' || *it == 'm')
+		 if (*it == 'M' || *it == 'm' || *it == 'L' || *it == 'l')
 		{
-			command = *it++ == 'M' ? SvgPath::PathElement::MoveTo : SvgPath::PathElement::MoveToRel;
-			xy = readCoordinatePair(it, last);
+			if(*it == 'M') command = SvgPath::PathElement::MoveTo;
+			else if(*it == 'm') command = SvgPath::PathElement::MoveToRel;
+			else if(*it == 'L') command = SvgPath::PathElement::LineTo;
+			else if(*it == 'l') command = SvgPath::PathElement::LineToRel;
 
-			*commandIt++ = command;
-			*coordIt++ = xy.first;
-			*coordIt++ = xy.second;
-		}
-		else if (*it == 'L' || *it == 'l')
-		{
-			command = *it++ == 'L' ? SvgPath::PathElement::LineTo : SvgPath::PathElement::LineToRel;
+			it++;
 
 			do
 			{
