@@ -135,6 +135,9 @@ void SvgPath::draw(GraphicsContext *g) const
 
 		if (*commandIt == PathElement::MoveTo || *commandIt == PathElement::MoveToRel)
 		{
+			if (prevCommand != PathElement::ClosePath && std::distance(commandIt, data.commands.begin()) != 0)
+				g->closePath();
+
 			if (SvgUtils::isCommandRelative(*commandIt))
 			{
 				x += cx;

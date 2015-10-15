@@ -191,8 +191,17 @@ TEST_CASE("path readers")
 		CHECK(commands == PathElements(
 		{
 			SvgPath::PathElement::MoveTo,
-			SvgPath::PathElement::MoveTo,
-			SvgPath::PathElement::MoveTo
+			SvgPath::PathElement::LineTo,
+			SvgPath::PathElement::LineTo
+		}));
+		CHECK_THAT(coords, Equals({ 10, 20, 30, 40, 50, 60 }));
+
+		CHECK_NOTHROW(readSvgCommand("m 10,20 30,40 50,60", commands, coords));
+		CHECK(commands == PathElements(
+		{
+			SvgPath::PathElement::MoveToRel,
+			SvgPath::PathElement::LineToRel,
+			SvgPath::PathElement::LineToRel
 		}));
 		CHECK_THAT(coords, Equals({ 10, 20, 30, 40, 50, 60 }));
 

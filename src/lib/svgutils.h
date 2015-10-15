@@ -164,14 +164,24 @@ namespace SvgUtils
 			else if (*it == 'l') command = SvgPath::PathElement::LineToRel;
 
 			it++;
+			size_t cntr = 0;
 
 			do
 			{
 				xy = readCoordinatePair(it, last);
 
-				*commandIt++ = command;
+				if (cntr > 0)
+				{
+					if (command == SvgPath::PathElement::MoveTo) *commandIt++ = SvgPath::PathElement::LineTo;
+					else if (command == SvgPath::PathElement::MoveToRel) *commandIt++ = SvgPath::PathElement::LineToRel;
+					else *commandIt++ = command;
+				}
+				else *commandIt++ = command;
+
 				*coordIt++ = xy.first;
 				*coordIt++ = xy.second;
+
+				cntr++;
 			}
 			while (skipToNextNumber(it, last));
 		}
