@@ -158,10 +158,10 @@ namespace SvgUtils
 
 		 if (*it == 'M' || *it == 'm' || *it == 'L' || *it == 'l')
 		{
-			if(*it == 'M') command = SvgPath::PathElement::MoveTo;
-			else if(*it == 'm') command = SvgPath::PathElement::MoveToRel;
-			else if(*it == 'L') command = SvgPath::PathElement::LineTo;
-			else if(*it == 'l') command = SvgPath::PathElement::LineToRel;
+			if (*it == 'M') command = SvgPath::PathElement::MoveTo;
+			else if (*it == 'm') command = SvgPath::PathElement::MoveToRel;
+			else if (*it == 'L') command = SvgPath::PathElement::LineTo;
+			else if (*it == 'l') command = SvgPath::PathElement::LineToRel;
 
 			it++;
 
@@ -177,10 +177,10 @@ namespace SvgUtils
 		}
 		else if (*it == 'H' || *it == 'h' || *it == 'V' || *it == 'v')
 		{
-			if(*it == 'H') command = SvgPath::PathElement::LineToHorizontal;
-			else if(*it == 'h') command = SvgPath::PathElement::LineToHorizontalRel;
-			else if(*it == 'V') command = SvgPath::PathElement::LineToVertical;
-			else if(*it == 'v') command = SvgPath::PathElement::LineToVerticalRel;
+			if (*it == 'H') command = SvgPath::PathElement::LineToHorizontal;
+			else if (*it == 'h') command = SvgPath::PathElement::LineToHorizontalRel;
+			else if (*it == 'V') command = SvgPath::PathElement::LineToVertical;
+			else if (*it == 'v') command = SvgPath::PathElement::LineToVerticalRel;
 
 			it++;
 
@@ -199,14 +199,14 @@ namespace SvgUtils
 		else if (*it == 'C' || *it == 'c' || *it == 'S' || *it == 's' ||
 			*it == 'Q' || *it == 'q' || *it == 'T' || *it == 't')
 		{
-			if(*it == 'C') command = SvgPath::PathElement::CurveToCubic;
-			else if(*it == 'c') command = SvgPath::PathElement::CurveToCubicRel;
-			else if(*it == 'S') command = SvgPath::PathElement::CurveToCubicSmooth;
-			else if(*it == 's') command = SvgPath::PathElement::CurveToCubicSmoothRel;
-			else if(*it == 'Q') command = SvgPath::PathElement::CurveToQuadratic;
-			else if(*it == 'q') command = SvgPath::PathElement::CurveToQuadraticRel;
-			else if(*it == 'T') command = SvgPath::PathElement::CurveToQuadraticSmooth;
-			else if(*it == 't') command = SvgPath::PathElement::CurveToQuadraticSmoothRel;
+			if (*it == 'C') command = SvgPath::PathElement::CurveToCubic;
+			else if (*it == 'c') command = SvgPath::PathElement::CurveToCubicRel;
+			else if (*it == 'S') command = SvgPath::PathElement::CurveToCubicSmooth;
+			else if (*it == 's') command = SvgPath::PathElement::CurveToCubicSmoothRel;
+			else if (*it == 'Q') command = SvgPath::PathElement::CurveToQuadratic;
+			else if (*it == 'q') command = SvgPath::PathElement::CurveToQuadraticRel;
+			else if (*it == 'T') command = SvgPath::PathElement::CurveToQuadraticSmooth;
+			else if (*it == 't') command = SvgPath::PathElement::CurveToQuadraticSmoothRel;
 
 			it++;
 
