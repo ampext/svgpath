@@ -13,6 +13,26 @@ The library also provided wxWidgets control and path viewer application based on
 * Catch (tests) - optional
 * Cairo (cairo rendering backend) - optional
 
+##Usage
+Creating control for showing svg font glyph:
+```cpp
+#include <svgglyphctrl.h>
+#include <svgfont.h>
+
+// somewhere in UI-related code
+SvgFont font(L"font.svg");
+SvgGlyphCtrl *glyphCtrl = new SvgGlyphCtrl(parent, wxID_ANY, font.GetGlyph(0xf000),
+    fontSize, wxALIGN_CENTER);
+```
+Generating wxBitmap from svg font glyph:
+```cpp
+#include <wxcontext.h>
+#include <svgfont.h>
+
+SvgFont font(L"font.svg");
+wxBitmap bitmap = GetBitmapForGlyph(font.GetGlyph(0xf020), fontSize, fontColor, bgColor);
+```
+
 ##Building
 ###Linux
     mkdir build
