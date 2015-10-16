@@ -1,4 +1,4 @@
-build
-build.*
+build*
+*.user
 catch.hpp
 .directory
