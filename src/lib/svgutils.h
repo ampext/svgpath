@@ -9,6 +9,7 @@
 #include <limits>
 #include <tuple>
 #include <algorithm>
+#include <iterator>
 
 namespace SvgUtils
 {
