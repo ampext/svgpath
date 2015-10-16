@@ -8,13 +8,13 @@ option(TESTS "build tests" ON)
 option(VIEWERS "build viewers" ON)
 option(SAMPLES "build samples" ON)
 
-add_definitions(-D_CRT_SECURE_NO_WARNINGS)
-
-include_directories(${CAIRO_INCLUDE})
-
-if(NOT CAIRO_LIB)
-	set(CAIRO_LIB "cairo")
+if(NOT CAIRO_LIB OR NOT CAIRO_INCLUDE)
+	set(USE_CAIRO_FLAG 0)
+else()
+	include_directories(${CAIRO_INCLUDE})
+	set(USE_CAIRO_FLAG 1)
 endif()
+
 
 find_package(wxWidgets COMPONENTS xrc html adv core xml base REQUIRED)
 include("${wxWidgets_USE_FILE}")
@@ -23,6 +23,7 @@ if(${CMAKE_COMPILER_IS_GNUCXX})
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --std=c++11 -Wall")
 else()
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /wd4514 /wd4251 /wd4275")
+	add_definitions(-D_CRT_SECURE_NO_WARNINGS)
 endif()
 
 add_subdirectory(src/lib)
