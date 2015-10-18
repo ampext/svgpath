@@ -8,6 +8,8 @@ option(TESTS "build tests" ON)
 option(VIEWERS "build viewers" ON)
 option(SAMPLES "build samples" ON)
 
+option(D2D_RENDERER "enable Direct2D renderer" OFF)
+
 if(NOT CAIRO_LIB OR NOT CAIRO_INCLUDE)
 	set(USE_CAIRO_FLAG 0)
 else()

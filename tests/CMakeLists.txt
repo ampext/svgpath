@@ -12,3 +12,8 @@ if(USE_CAIRO_FLAG)
 	add_executable(cairorender cairorender.cpp)
 	target_link_libraries(cairorender svgpath)
 endif()
+
+if(D2D_RENDERER)
+	add_executable(d2drender d2drender.cpp)
+	target_link_libraries(d2drender svgpath Windowscodecs.lib D2d1.lib)
+endif()
