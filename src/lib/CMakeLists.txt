@@ -4,8 +4,12 @@ set(SOURCES svgpath.cpp wxcontext.cpp svgpathctrl.cpp svgglyphctrl.cpp svgpathct
 set(LIBRARIES ${wxWidgets_LIBRARIES})
 
 if(USE_CAIRO_FLAG)
-	set (SOURCES ${SOURCES} cairocontext.cpp)
-	set (LIBRARIES ${LIBRARIES} ${CAIRO_LIB} )
+	set(SOURCES ${SOURCES} cairocontext.cpp)
+	set(LIBRARIES ${LIBRARIES} ${CAIRO_LIB})
+endif()
+
+if(D2D_RENDERER)
+	set(SOURCES ${SOURCES} d2dcontext.cpp)
 endif()
 
 add_library(svgpath STATIC ${SOURCES})

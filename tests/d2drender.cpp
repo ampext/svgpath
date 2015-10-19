@@ -1,10 +1,10 @@
-#include <d2d1.h>
-#include <d2d1helper.h>
+#include "renderdata.h"
+
+#include <d2dcontext.h>
+
 #include <wincodecsdk.h>
-#include <wrl.h>
 
 #include <memory>
-#include <iostream>
 #include <string>
 
 using namespace Microsoft::WRL;
@@ -34,41 +34,41 @@ HRESULT SaveWICBitmapToFile(ComPtr<IWICImagingFactory> factory, ComPtr<IWICBitma
 	ComPtr<IWICBitmapFrameEncode> frameEncode;
 	WICPixelFormatGUID format = GUID_WICPixelFormat32bppPBGRA;
 
-	HRESULT hr = factory.Get()->CreateStream(stream.GetAddressOf());
+	HRESULT hr = factory->CreateStream(stream.GetAddressOf());
 	if (hr != S_OK) return hr;
 	
-	hr = stream.Get()->InitializeFromFilename(filename.c_str(), GENERIC_WRITE);
+	hr = stream->InitializeFromFilename(filename.c_str(), GENERIC_WRITE);
 	if (hr != S_OK) return hr;
 
 	hr = factory->CreateEncoder(GUID_ContainerFormatPng, NULL, encoder.GetAddressOf());
 	if (hr != S_OK) return hr;
 
-	hr = encoder.Get()->Initialize(stream.Get(), WICBitmapEncoderNoCache);
+	hr = encoder->Initialize(stream.Get(), WICBitmapEncoderNoCache);
 	if (hr != S_OK) return hr;
 
 	hr = encoder.Get()->CreateNewFrame(frameEncode.GetAddressOf(), NULL);
 	if (hr != S_OK) return hr;
 
 	unsigned width, height;
-	hr = bitmap.Get()->GetSize(&width, &height);
+	hr = bitmap->GetSize(&width, &height);
 	if (hr != S_OK) return hr;
 
-	hr = frameEncode.Get()->Initialize(NULL);
+	hr = frameEncode->Initialize(NULL);
 	if (hr != S_OK) return hr;
 
-	hr = frameEncode.Get()->SetSize(width, height);
+	hr = frameEncode->SetSize(width, height);
 	if (hr != S_OK) return hr;
 
-	hr = frameEncode.Get()->SetPixelFormat(&format);
+	hr = frameEncode->SetPixelFormat(&format);
 	if (hr != S_OK) return hr;
 
-	hr = frameEncode.Get()->WriteSource(bitmap.Get(), NULL);
+	hr = frameEncode->WriteSource(bitmap.Get(), NULL);
 	if (hr != S_OK) return hr;
 
-	hr = frameEncode.Get()->Commit();
+	hr = frameEncode->Commit();
 	if (hr != S_OK) return hr;
 
-	hr = encoder.Get()->Commit();
+	hr = encoder->Commit();
 	if (hr != S_OK) return hr;
 
 	return hr;
@@ -101,11 +101,14 @@ int main()
 	renderTarget->BeginDraw();
 
 	renderTarget->Clear(D2D1::ColorF(D2D1::ColorF::White));
-	renderTarget->DrawRectangle(D2D1::RectF(10.5, 10.5, 100.5, 100.5), brush);
+	
+	D2DContext graphicsContext(d2dFactory.Get(), renderTarget.Get(), false);
+	draw(&graphicsContext, testData01);
+	graphicsContext.stroke();
 
 	renderTarget->EndDraw();
 
-	SaveWICBitmapToFile(wicFactory, wicBitmap, L"d3dtest.png");
+	SaveWICBitmapToFile(wicFactory, wicBitmap, L"d2dtest.png");
 
 	return EXIT_SUCCESS;
 }
