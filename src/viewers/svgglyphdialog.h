@@ -17,6 +17,7 @@ public:
 private:
 	void OnLoadFont(const wxString &path);
 	void RefreshCell(const wxGridCellCoords &coords);
+	void AutoSizeGrid();
 
 private:
 	wxTextCtrl *fnCtrl = nullptr;

@@ -23,6 +23,8 @@ public:
 	void SetFontSize(int size);
 	int GetFontSize() const;
 
+	wxSize GetDefaultCellSize();
+
 private:
 	const std::map<wxString, SvgGlyph> &glyphs;
 	int fontSize = 0;

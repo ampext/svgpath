@@ -8,6 +8,7 @@
 #include <wx/msgdlg.h> 
 #include <wx/filename.h>
 #include <wx/choice.h>
+#include <wx/settings.h>
 
  #include <algorithm>
 
@@ -118,13 +119,53 @@ SvgGlyphDialog::SvgGlyphDialog(wxWindow *parent): wxDialog(parent, wxID_ANY, wxE
 
 		int fontSize = fontSizes.at(fontSizeIndex);
 		cellRenderer->SetFontSize(fontSize);
-		glyphGrid->AutoSize();
-		Layout();
+		
+		AutoSizeGrid();
 	});
 
 	SetSizer(sizer);
 	SetSize(400, 400);
 	SetLabel(L"SVG Glyph Viewer");
+}
+
+void SvgGlyphDialog::AutoSizeGrid()
+{
+	wxSize cellSize = cellRenderer->GetDefaultCellSize();
+
+	int cellWidth = cellSize.GetWidth();
+	int gridAreaWidth = glyphGrid->GetGridWindow()->GetSize().GetWidth() - wxSystemSettings::GetMetric(wxSYS_VSCROLL_X, glyphGrid->GetGridWindow());
+
+	int glyphCount = std::count_if(svgFont.GetGlyphs().begin(), svgFont.GetGlyphs().end(), [](const std::pair<wxString, SvgGlyph> &glyph)
+	{
+		return !glyph.second.data.IsEmpty();
+	});
+
+	int cols = std::max(1, gridAreaWidth / cellWidth);
+	int rows = std::round(static_cast<float>(glyphCount) / cols + 0.5f);
+
+	glyphGrid->SetTable(nullptr);
+	glyphGrid->CreateGrid(rows, cols, wxGrid:: wxGridSelectCells);	
+
+	int col = 0;
+	int row = 0;
+	
+	for (const std::pair<wxString, SvgGlyph> &glyph: svgFont.GetGlyphs())
+	{
+		if (glyph.second.data.IsEmpty()) continue;
+
+		if (col >= glyphGrid->GetNumberCols())
+		{
+			col = 0;
+			row++;
+		}
+
+		glyphGrid->SetReadOnly(row, col, true);
+		glyphGrid->SetCellValue(row, col++, glyph.first);
+	}
+
+	glyphGrid->SetDefaultColSize(cellWidth, true);
+	glyphGrid->SetDefaultRowSize(cellSize.GetHeight(), true);
+	Layout();
 }
 
 void SvgGlyphDialog::OnLoadFont(const wxString &path)
@@ -136,36 +177,9 @@ void SvgGlyphDialog::OnLoadFont(const wxString &path)
 	{
 		fnCtrl->SetValue(wxString::Format(L"%s (%s)", svgFont.GetId(), wxFileName::FileName(path).GetFullName()));
 
-		int glyphCount = std::count_if(svgFont.GetGlyphs().begin(), svgFont.GetGlyphs().end(), [](const std::pair<wxString, SvgGlyph> &glyph)
-		{
-			return !glyph.second.data.IsEmpty();
-		});
-
-		int cols = 10;
-		int rows = std::round(static_cast<float>(glyphCount) / cols + 0.5f);
-
-		glyphGrid->CreateGrid(rows, cols, wxGrid:: wxGridSelectCells);
 		glyphGrid->SetDefaultRenderer(cellRenderer = new GlyphCellRenderer(svgFont.GetGlyphs(), fontSizes.at(fontSizeIndex)));
 
-		int col = 0;
-		int row = 0;
-		
-		for (const std::pair<wxString, SvgGlyph> &glyph: svgFont.GetGlyphs())
-		{
-			if (glyph.second.data.IsEmpty()) continue;
-
-			if (col >= glyphGrid->GetNumberCols())
-			{
-				col = 0;
-				row++;
-			}
-
-			glyphGrid->SetReadOnly(row, col, true);
-			glyphGrid->SetCellValue(row, col++, glyph.first);
-		}
-
-		glyphGrid->AutoSize();
-		Layout();
+		AutoSizeGrid();
 	}
 	else
 	{

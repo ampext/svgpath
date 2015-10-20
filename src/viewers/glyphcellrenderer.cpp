@@ -119,5 +119,12 @@ void GlyphCellRenderer::Draw(wxGrid &grid, wxGridCellAttr &attr, wxDC &dc, const
 
 wxSize GlyphCellRenderer::GetBestSize(wxGrid &grid, wxGridCellAttr &attr, wxDC &dc, int row, int col)
 {
-	return wxSize(fontSize + padding, fontSize + labelFont.GetPixelSize().GetHeight() + 3 * padding);
+	return GetDefaultCellSize();
+}
+
+wxSize GlyphCellRenderer::GetDefaultCellSize()
+{
+	int height = 1.5 * fontSize + labelFont.GetPixelSize().GetHeight() + 3 * padding;
+
+	return wxSize(1.5 * height, height);
 }
