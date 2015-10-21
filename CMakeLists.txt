@@ -9,14 +9,18 @@ option(VIEWERS "build viewers" ON)
 option(SAMPLES "build samples" ON)
 
 option(D2D_RENDERER "enable Direct2D renderer" OFF)
+option(CAIRO_RENDERER "enable Cairo renderer" OFF)
 
-if(NOT CAIRO_LIB OR NOT CAIRO_INCLUDE)
-	set(USE_CAIRO_FLAG 0)
-else()
+if(CAIRO_RENDERER)
+	if(UNIX)
+		if(NOT CAIRO_LIB)
+			# default name in system lib paths
+			set(CAIRO_LIB "cairo")
+		endif()
+	endif()
+
 	include_directories(${CAIRO_INCLUDE})
-	set(USE_CAIRO_FLAG 1)
 endif()
-
 
 find_package(wxWidgets COMPONENTS xrc html adv core xml base REQUIRED)
 include("${wxWidgets_USE_FILE}")
