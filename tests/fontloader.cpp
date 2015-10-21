@@ -52,4 +52,18 @@ TEST_CASE("font loader")
 		svgFont.Clear();
 		CHECK(svgFont.GetLastError() == wxEmptyString);
 	}
+
+	SECTION("SvgGlyph operators")
+	{
+		SvgGlyph g1;
+		SvgGlyph g2;
+
+		g1.unicode = g2.unicode = "u";
+		g1.data = g2.data = "p";
+
+		CHECK(g1 == g2);
+
+		g2.data = "x";
+		CHECK_FALSE(g1 != g2);
+	}
 }

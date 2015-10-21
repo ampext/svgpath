@@ -32,4 +32,14 @@ struct SVGPATHAPI SvgGlyph
 	{
 		return static_cast<double>(descent)  / unitsPerEm * size;
 	}
+
+	bool operator == (const SvgGlyph &glyph) const
+	{
+		return unicode == unicode && data == data;
+	}
+
+	bool operator != (const SvgGlyph &glyph) const
+	{
+		return !(*this == glyph);
+	}
 };
