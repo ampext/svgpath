@@ -54,7 +54,8 @@ public:
 	void SetAlignment(int alignment);
 	int GetAlignment() const;
 
-	// TODO: SetGlyph/GetGlyph methods
+	void SetGlyph(const SvgGlyph &glyph);
+	const SvgGlyph &GetGlyph() const;
 
 	void SetColor(const wxColor &color) override;
 

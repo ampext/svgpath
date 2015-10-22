@@ -32,6 +32,20 @@ int SvgGlyphCtrl::GetFontSize() const
 	return fontSize;
 }
 
+void SvgGlyphCtrl::SetGlyph(const SvgGlyph &glyph)
+{
+	if (svgGlyph != glyph)
+	{
+		glyphBitmap = wxNullBitmap;
+		svgGlyph = glyph;		
+	}
+}
+
+const SvgGlyph &SvgGlyphCtrl::GetGlyph() const
+{
+	return svgGlyph;
+}
+
 void SvgGlyphCtrl::SetPadding(int padding)
 {
 	this->padding = padding;
