@@ -24,6 +24,7 @@ public:
 
 	const SvgGlyph &GetGlyph(const wxString &unicode) const;
 	const SvgGlyph &GetGlyph(int code) const;
+	const SvgGlyph &GetGlyphByName(const wxString &name) const;
 
 	const std::map<wxString, SvgGlyph> &GetGlyphs() const;
 
@@ -36,4 +37,5 @@ private:
 
 	wxString lastError;
 	std::map<wxString, SvgGlyph> glyphs;
+	SvgGlyph dummyGlyph;
 };

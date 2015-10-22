@@ -7,6 +7,7 @@
 struct SVGPATHAPI SvgGlyph
 {
 	wxString unicode;
+	wxString glyphName;
 	wxString data;
 	int horizAdvX = -1;
 	int unitsPerEm = -1;

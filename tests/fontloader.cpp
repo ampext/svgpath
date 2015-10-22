@@ -51,6 +51,10 @@ TEST_CASE("font loader")
 
 		svgFont.Clear();
 		CHECK(svgFont.GetLastError() == wxEmptyString);
+
+		CHECK(svgFont.LoadFromFile(executablePath + "/font2.svg"));
+		CHECK(svgFont.GetGlyph(0xfe09).glyphName == "glyph0");
+		CHECK(svgFont.GetGlyphByName("glyph0").unicode == L"\ufe09");
 	}
 
 	SECTION("SvgGlyph operators")

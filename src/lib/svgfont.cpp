@@ -104,6 +104,7 @@ bool SvgFont::LoadFromFile(const wxString &filename)
 			SvgGlyph glyph;
 
 			glyph.unicode = node->GetAttribute("unicode");
+			glyph.glyphName = node->GetAttribute("glyph-name");
 
 			if (!glyph.unicode.IsEmpty() && glyphs.count(glyph.unicode) == 0)
 			{
@@ -175,8 +176,6 @@ int SvgFont::GetDescent() const
 
 const SvgGlyph &SvgFont::GetGlyph(const wxString &unicode) const
 {
-	static SvgGlyph dummyGlyph;
-
 	auto it = glyphs.find(unicode);
 
 	if (it != glyphs.end())
@@ -188,6 +187,17 @@ const SvgGlyph &SvgFont::GetGlyph(const wxString &unicode) const
 const SvgGlyph &SvgFont::GetGlyph(int code) const
 {
 	return GetGlyph(wxString({ static_cast<wchar_t>(code) }));
+}
+
+const SvgGlyph &SvgFont::GetGlyphByName(const wxString &name) const
+{
+	auto it = std::find_if(glyphs.begin(), glyphs.end(), [name] (const std::pair<wxString, SvgGlyph> &p)
+	{
+		return p.second.glyphName == name;
+	});
+
+	if (it != glyphs.end()) return it->second;
+	return dummyGlyph;
 }
 
 const std::map<wxString, SvgGlyph> &SvgFont::GetGlyphs() const
