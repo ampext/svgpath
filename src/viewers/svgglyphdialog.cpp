@@ -124,7 +124,7 @@ SvgGlyphDialog::SvgGlyphDialog(wxWindow *parent): wxDialog(parent, wxID_ANY, wxE
 	});
 
 	SetSizer(sizer);
-	SetSize(400, 400);
+	SetSize(600, 400);
 	SetLabel(L"SVG Glyph Viewer");
 }
 
