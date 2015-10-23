@@ -25,6 +25,8 @@ public:
 
 	wxSize GetDefaultCellSize();
 
+	void ShowGlyphNames(bool show);
+
 private:
 	const std::map<wxString, SvgGlyph> &glyphs;
 	int fontSize = 0;
@@ -35,6 +37,7 @@ private:
 	wxColor glyphColor;
 	wxColor hlColor;
 	wxGridCellCoords hlCellCoords;
+	bool showGlyphNames = false;
 	
 	// It is not good to store cache as collection of wxBitmap under Windows because each wxBitmap is GDI object
 	std::map<wxString, wxBitmap> glyphCache;

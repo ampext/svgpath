@@ -32,6 +32,11 @@ const wxGridCellCoords &GlyphCellRenderer::GetHighlightCell() const
 	return hlCellCoords;
 }
 
+void GlyphCellRenderer::ShowGlyphNames(bool show)
+{
+	showGlyphNames = show;
+}
+
 void GlyphCellRenderer::SetFontSize(int size)
 {
 	if (fontSize != size)
@@ -62,7 +67,8 @@ void GlyphCellRenderer::Draw(wxGrid &grid, wxGridCellAttr &attr, wxDC &dc, const
 	if (!glyph.IsOk())
 		return;
 
-	label.Printf("%04x", glyph.unicode[0]);
+	if (showGlyphNames) label = glyph.glyphName;
+	else label.Printf("%04x", glyph.unicode[0]);
 
 	std::unique_ptr<wxGraphicsContext> gc(wxGraphicsContext::Create(static_cast<wxPaintDC&>(dc)));
 
@@ -110,10 +116,21 @@ void GlyphCellRenderer::Draw(wxGrid &grid, wxGridCellAttr &attr, wxDC &dc, const
 			glyphBitmap.GetWidth(), glyphBitmap.GetHeight());
 	}
 
+	double maxTextWidth = std::max(0, newRect.width - 2);
 	double width, height, descent, externalLeading;
 
 	gc->SetFont(labelFont, labelColor);
 	gc->GetTextExtent(label, &width, &height, &descent, &externalLeading);
+
+	wxString origLabel = label;
+	size_t cutCntr = 1;
+
+	while (width > maxTextWidth && !label.IsEmpty())
+	{
+		label = origLabel.Left(origLabel.Length() - cutCntr++) + L"\u2026";
+		gc->GetTextExtent(label, &width, &height, &descent, &externalLeading);
+	}
+
 	gc->DrawText(label, newRect.x + (newRect.width - width) / 2, newRect.y + newRect.height + padding);
 }
 

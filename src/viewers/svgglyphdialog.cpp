@@ -8,6 +8,7 @@
 #include <wx/msgdlg.h> 
 #include <wx/filename.h>
 #include <wx/choice.h>
+#include <wx/checkbox.h>
 #include <wx/settings.h>
 
  #include <algorithm>
@@ -17,6 +18,7 @@ SvgGlyphDialog::SvgGlyphDialog(wxWindow *parent): wxDialog(parent, wxID_ANY, wxE
 {
 	wxButton *fnButton;
 	wxChoice *sizeChoice;
+	wxCheckBox *namesCheck;
 
 	wxBoxSizer *sizer = new wxBoxSizer(wxVERTICAL);
 	{
@@ -25,6 +27,7 @@ SvgGlyphDialog::SvgGlyphDialog(wxWindow *parent): wxDialog(parent, wxID_ANY, wxE
 			hSizer->Add(fnCtrl = new wxTextCtrl(this, wxID_ANY), 1, wxALL | wxEXPAND, 5);
 			hSizer->Add(fnButton = new wxButton(this, wxID_ANY, "...", wxDefaultPosition, wxDefaultSize, wxBU_EXACTFIT), 0, wxALL | wxEXPAND, 5);
 			hSizer->Add(sizeChoice = new wxChoice(this, wxID_ANY), 0, wxALL | wxEXPAND, 5);
+			hSizer->Add(namesCheck = new wxCheckBox(this, wxID_ANY, L"Names"), 0, wxALL | wxEXPAND, 5);
 		}
 
 		sizer->Add(hSizer, 0, wxALL | wxEXPAND, 5);
@@ -121,6 +124,15 @@ SvgGlyphDialog::SvgGlyphDialog(wxWindow *parent): wxDialog(parent, wxID_ANY, wxE
 		cellRenderer->SetFontSize(fontSize);
 		
 		AutoSizeGrid();
+	});
+
+	namesCheck->Bind(wxEVT_CHECKBOX, [this](wxCommandEvent &event)
+	{
+		if (cellRenderer)
+		{
+			cellRenderer->ShowGlyphNames(event.IsChecked());
+			glyphGrid->Refresh();
+		}
 	});
 
 	SetSizer(sizer);
