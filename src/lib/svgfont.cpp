@@ -1,6 +1,8 @@
 #include "svgfont.h"
 
 #include <cmath>
+#include <algorithm>
+
 #include <wx/xml/xml.h>
 
 SvgFont::SvgFont(const wxString &filename)
