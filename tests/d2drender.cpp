@@ -2,7 +2,7 @@
 
 #include <d2dcontext.h>
 
-#include <wincodecsdk.h>
+#include <wincodec.h>
 
 #include <memory>
 #include <string>
