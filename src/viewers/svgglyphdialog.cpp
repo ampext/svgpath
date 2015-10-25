@@ -8,7 +8,6 @@
 #include <wx/msgdlg.h> 
 #include <wx/filename.h>
 #include <wx/choice.h>
-#include <wx/checkbox.h>
 #include <wx/settings.h>
 
  #include <algorithm>
@@ -18,7 +17,6 @@ SvgGlyphDialog::SvgGlyphDialog(wxWindow *parent): wxDialog(parent, wxID_ANY, wxE
 {
 	wxButton *fnButton;
 	wxChoice *sizeChoice;
-	wxCheckBox *namesCheck;
 
 	wxBoxSizer *sizer = new wxBoxSizer(wxVERTICAL);
 	{
@@ -190,6 +188,7 @@ void SvgGlyphDialog::OnLoadFont(const wxString &path)
 		fnCtrl->SetValue(wxString::Format(L"%s (%s)", svgFont.GetId(), wxFileName::FileName(path).GetFullName()));
 
 		glyphGrid->SetDefaultRenderer(cellRenderer = new GlyphCellRenderer(svgFont.GetGlyphs(), fontSizes.at(fontSizeIndex)));
+		cellRenderer->ShowGlyphNames(namesCheck->GetValue());
 
 		AutoSizeGrid();
 	}

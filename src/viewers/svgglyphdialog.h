@@ -5,6 +5,7 @@
 #include <wx/dialog.h>
 #include <wx/grid.h>
 #include <wx/textctrl.h>
+#include <wx/checkbox.h>
 #include <vector>
 
 class GlyphCellRenderer;
@@ -21,6 +22,7 @@ private:
 
 private:
 	wxTextCtrl *fnCtrl = nullptr;
+	wxCheckBox *namesCheck = nullptr;
 	wxGrid *glyphGrid = nullptr;
 	GlyphCellRenderer *cellRenderer = nullptr;
 
