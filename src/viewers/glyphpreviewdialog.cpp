@@ -6,8 +6,6 @@
 #include <wx/stattext.h>
 #include <wx/textctrl.h>
 
-#include <array>
-
 GlyphPreviewDialog::GlyphPreviewDialog(wxWindow *parent, const SvgGlyph &glyph): wxDialog(parent, wxID_ANY, wxEmptyString,
 	wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER)
 {
