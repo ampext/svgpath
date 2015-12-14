@@ -180,6 +180,8 @@ TEST_CASE("path readers")
 		CHECK_THROWS(readSvgCommand("q 10 20", commands, coords));
 		CHECK_THROWS(readSvgCommand("T 10", commands, coords));
 		CHECK_THROWS(readSvgCommand("t 10", commands, coords));
+
+		CHECK_NOTHROW(readSvgPath("C16.64,2.737,13.649,0.219,10,0.219", commands, coords));
 	}
 
 	SECTION("1+ command arguments")

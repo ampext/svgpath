@@ -232,6 +232,9 @@ namespace SvgUtils
 				if (command != SvgPath::PathElement::CurveToQuadraticSmooth &&
 					command != SvgPath::PathElement::CurveToQuadraticSmoothRel)
 				{
+					if (!skipToNextNumber(it, last)) 
+						throw std::runtime_error("expected comma of whitespace after coordinate");
+
 					xy = readCoordinatePair(it, last);
 
 					*coordIt++ = xy.first;
@@ -242,6 +245,9 @@ namespace SvgUtils
 						command != SvgPath::PathElement::CurveToQuadratic &&
 						command != SvgPath::PathElement::CurveToQuadraticRel)
 					{
+						if (!skipToNextNumber(it, last)) 
+							throw std::runtime_error("expected comma of whitespace after coordinate");
+						
 						xy = readCoordinatePair(it, last);
 
 						*coordIt++ = xy.first;
