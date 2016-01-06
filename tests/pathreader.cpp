@@ -10,6 +10,8 @@ TEST_CASE("path readers")
 		CHECK(readNumber("1.23") == Approx(1.23));
 		CHECK(readNumber("1.1e3") == Approx(1.1e3));
 		CHECK(readNumber("1.1e-3") == Approx(1.1e-3));
+		CHECK(readNumber(".123") == Approx(.123));
+		CHECK(readNumber("-.123") == Approx(-.123));
 		
 		CHECK(readNumber("-123") == Approx(-123));
 		CHECK(readNumber("-1.23") == Approx(-1.23));
@@ -20,7 +22,12 @@ TEST_CASE("path readers")
 		CHECK(readNumber("1.23 \t\n") == Approx(1.23));
 		CHECK(readNumber("1.23 abc") == Approx(1.23));
 		CHECK(readNumber("1.23abc") == Approx(1.23));
-		CHECK_NOTHROW(readNumber("1.23-4.5") == Approx(1.23));
+		CHECK(readNumber("1.23-4.5") == Approx(1.23));
+		CHECK(readNumber("1.23+4.5") == Approx(1.23));
+		CHECK(readNumber("1.23.4") == Approx(1.23));
+
+		CHECK(readNumber("-1") == Approx(-1));
+		CHECK(readNumber("+1") == Approx(1));
 		
 		CHECK_THROWS(readNumber("abc"));
 		CHECK_THROWS(readNumber(""));
@@ -54,6 +61,14 @@ TEST_CASE("path readers")
 		CHECK_NOTHROW(std::tie(x, y) = readCoordinate("1-2"));
 		CHECK(x == Approx(1));
 		CHECK(y == Approx(-2));
+
+		CHECK_NOTHROW(std::tie(x, y) = readCoordinate("0.5.6"));
+		CHECK(x == Approx(0.5));
+		CHECK(y == Approx(0.6));
+
+		CHECK_NOTHROW(std::tie(x, y) = readCoordinate("0.5-.6"));
+		CHECK(x == Approx(0.5));
+		CHECK(y == Approx(-0.6));
 		
 		CHECK_THROWS(readCoordinate("123"));
 		CHECK_THROWS(readCoordinate("123,"));
@@ -331,5 +346,9 @@ TEST_CASE("path readers")
 			SvgPath::PathElement::ClosePath
 		}));
 		CHECK_THAT(coords, Equals({ 1, 2, 3, 4, -5, 6, 7, -8, 9, 10, 11}));
+
+		CHECK_NOTHROW(readSvgPath("M 0 0 .1 0", commands, coords));
+		CHECK_NOTHROW(readSvgPath("M 0 0 -.1 0", commands, coords));
+		CHECK_NOTHROW(readSvgPath("M 0 0 +.1 0", commands, coords));
 	}
 }

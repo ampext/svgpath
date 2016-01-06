@@ -18,6 +18,11 @@ namespace SvgUtils
 		return ch == ',' || std::isspace(ch);
 	}
 
+	inline bool isSign(char ch)
+	{
+		return ch == '-' || ch == '+';
+	}
+
 	inline double toDouble(const std::string &str)
 	{
 		std::istringstream stream(str);
@@ -39,7 +44,7 @@ namespace SvgUtils
 		while (it != last && isCommaOrWhitespace(*it))
 			it++;
 
-		return it != last && (std::isdigit(*it) || *it == '-');
+		return it != last && (std::isdigit(*it) || isSign(*it) || *it == '.');
 	}
 
 	template <class Iterator>
@@ -58,7 +63,7 @@ namespace SvgUtils
 		
 		if (it != last)
 		{
-			if (*it == '-') 
+			if (isSign(*it))
 				it++;
 			
 			if (it != last)
@@ -83,7 +88,7 @@ namespace SvgUtils
 
 								if (it == last) throw std::runtime_error("failure to read number, expected power after exponent symbol");
 								
-								if (*it == '-') 
+								if (isSign(*it))
 									it++;
 								
 								if (it == last) throw std::runtime_error("failure to read number, expected digits after sign");
@@ -121,7 +126,7 @@ namespace SvgUtils
 		if (it == last)
 			throw std::runtime_error("expected comma or whitespace before y coordinate");
 		
-		if (!isCommaOrWhitespace(*it) && *it != '-') 
+		if (!isCommaOrWhitespace(*it) && !isSign(*it) && *it != '.') 
 			throw std::runtime_error(std::string("expected comma or whitespace before y coordinate, but \"") + *it + "\" found");
 		
 		bool commaFound = false;
