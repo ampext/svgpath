@@ -25,6 +25,10 @@ endif()
 find_package(wxWidgets COMPONENTS xrc html adv core xml base REQUIRED)
 include("${wxWidgets_USE_FILE}")
 
+if(${wxWidgets_VERSION_MAJOR} EQUAL "2")
+	message(FATAL_ERROR "not supported wxWidgets version ${wxWidgets_VERSION_STRING}, required 3.x")
+endif()
+
 if(${CMAKE_COMPILER_IS_GNUCXX})
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --std=c++11 -Wall")
 else()
