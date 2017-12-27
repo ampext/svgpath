@@ -3,7 +3,7 @@
 
 std::string executablePath = "";
 
-int main(int argc, char* const argv[])
+int main(int argc, char* argv[])
 {
 	executablePath = argv[0];
 	size_t p = std::string::npos;

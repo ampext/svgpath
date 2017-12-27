@@ -46,71 +46,40 @@ inline void readSvgPath(const std::string &str, std::vector<SvgPath::PathElement
 	SvgUtils::readSvgPath(it, str.end(), std::back_inserter(commands), std::back_inserter(coords));
 }
 
-namespace Catch {
-	namespace Matchers {
-		namespace Impl {
-			namespace DoubleVector
-			{
-				struct Equals: MatcherImpl<Equals, std::vector<double>>
-				{
-					Equals(const std::vector<double> &vec): m_vec(vec)
-					{
+class DoubleVectorMatcher: public Catch::MatcherBase<std::vector<double>>
+{
+private:
+	const std::vector<double> &m_values;
+	double m_epsilon;
+public:
+	DoubleVectorMatcher(
+		const std::vector<double> &values,
+		double epsilon = std::numeric_limits<float>::epsilon() * 100): m_values(values), m_epsilon(epsilon)
+	{
 
-					}
-
-					Equals(const Equals &other): m_vec(other.m_vec)
-					{
-
-					}
-
-					Equals& epsilon(double epsilon)
-					{
-						m_epsilon = epsilon;
-						return *this;
-					}
-
-					virtual bool match(const std::vector<double> &expr) const
-					{
-						if (expr.size() == m_vec.size())
-						{
-							for (size_t i = 0; i < m_vec.size(); i++)
-								if (expr[i] != Approx(m_vec[i]).epsilon(m_epsilon))
-									return false;
-
-							return true;
-						} 
-
-						return false;
-					}
-
-					virtual std::string toString() const
-					{
-						std::ostringstream stream;
-
-						stream << "== { ";
-
-						for (size_t i = 0; i < m_vec.size(); i++)
-							stream << (i > 0 ? ", " : "") << Catch::toString(m_vec[i]);
-
-						stream << " }";
-					
-						return stream.str();
-					}
-
-					double m_epsilon = std::numeric_limits<float>::epsilon() * 100;
-					std::vector<double> m_vec;
-				};
-			}
-		}
-
-		inline Impl::DoubleVector::Equals Equals(std::initializer_list<double> l)
-		{
-			 return Impl::DoubleVector::Equals(std::vector<double>(l));
-		}
-
-		inline Impl::DoubleVector::Equals Equals(const std::vector<double>& vec)
-		{
-			return Impl::DoubleVector::Equals(vec);
-		}
 	}
+
+	virtual bool match(const std::vector<double> &values) const override
+	{
+		if (m_values.size() == values.size())
+		{
+			for (size_t i = 0; i < m_values.size(); i++)
+				if (values[i] != Approx(m_values[i]).epsilon(m_epsilon))
+					return false;
+
+			return true;
+		} 
+
+		return false;		
+	}
+
+	virtual std::string describe() const override
+	{
+		return "Equals: " + Catch::Detail::stringify(m_values);
+	}
+};
+
+inline DoubleVectorMatcher Equals(const std::vector<double> &values)
+{
+	return DoubleVectorMatcher(values);
 }
