@@ -45,8 +45,9 @@ If you have a custom wxWidgets build pass `-DwxWidgets_CONFIG_EXECUTABLE=<path t
     cd build
     cmake -G "NMake Makefiles" -DwxWidgets_ROOT_DIR=<path to wxWidgets> ..
     nmake
+You can pass `wxWidgets_LIB_DIR` instead of `wxWidgets_ROOT_DIR` if it is not working
 #### CMake Options
-`-DTESTS=1/0` for enable or disable tests from build. Execute `wget -P tests https://raw.githubusercontent.com/philsquared/Catch/3b18d9e962835100d7e12ac80d22882e408e40dc/single_include/catch.hpp` in source root directory for fetching dependency (Catch 1.2.1)
+`-DTESTS=1/0` for enable or disable tests from build. Execute `wget -P tests https://github.com/catchorg/Catch2/releases/download/v2.0.1/catch.hpp` in source root directory for fetching dependency (Catch 1.2.1)
 
 `-DVIEWERS=1/0` for enable or disable viewers from build
 
