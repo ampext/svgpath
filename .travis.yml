@@ -11,16 +11,10 @@ configuration:
   
 notifications:
   email: false
-
-before_install:
-  - sudo add-apt-repository -y ppa:wxformbuilder/wxwidgets
-  - sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
-  - sudo apt-get update -qq
   
 install:
   - sudo apt-get install libwxgtk3.0-dev g++-4.8 libstdc++-4.8-dev libcairo2-dev 
-  - wget -P tests https://raw.githubusercontent.com/philsquared/Catch/3b18d9e962835100d7e12ac80d22882e408e40dc/single_include/catch.hpp
-  - export CXX="g++-4.8"
+  - wget -P tests https://github.com/catchorg/Catch2/releases/download/v2.0.1/catch.hpp
 
 script:
   - mkdir build
